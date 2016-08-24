@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<configuration>
+	<!-- The content of element type "configuration" must match 
+	"(properties?,settings?,typeAliases?,typeHandlers?,
+	objectFactory?,objectWrapperFactory?,reflectorFactory?,
+	plugins?,environments?,databaseIdProvider?,mappers?)". -->
+	
+    <!-- 配置mybatis属性文件，相同属性:最高优先级的属性是那些作为方法参数的，然后是资源/url属性，最后是 properties元素中指定的属性 --> 
+    <!-- 
+	<properties resource="jdbc.properties">
+		<property name="jdbc.driver" value="${jdbc.driver}"/>
+	</properties> 
+	 -->
+	 
+    <!-- 配置mybatis全局参数（运行时的行为方式），需要时配置mybatis的缓存，延迟加载等一系列属性 -->
+    <settings>  
+        <!-- 全局映射器启用二级缓存 -->  
+        <setting name="cacheEnabled" value="true" />  
+        <!-- 延迟加载开关,查询时，关闭关联对象即时加载以提高性能 -->  
+        <setting name="lazyLoadingEnabled" value="true" />  
+        <!-- 将积极加载改为消极加载即按需要加载,设置关联对象加载的形态，此处为按需加载字段(加载字段由SQL指 定)，不会加载关联表的所有字段，以提高性能 -->  
+        <setting name="aggressiveLazyLoading" value="false" />  
+        <!-- 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果 -->  
+        <setting name="multipleResultSetsEnabled" value="true" />  
+        <!-- 允许使用列标签代替列名 -->  
+        <setting name="useColumnLabel" value="true" />  
+        <!-- 允许使用自定义的主键值(比如由程序生成的UUID 32位编码作为键值)，数据表的PK生成策略将被覆盖 -->  
+        <!-- <setting name="useGeneratedKeys" value="true" /> -->  
+        <!-- 给予被嵌套的resultMap以字段-属性的映射支持 -->  
+        <setting name="autoMappingBehavior" value="FULL" />  
+        <!-- 对于批量更新操作缓存SQL以提高性能 -->  
+        <setting name="defaultExecutorType" value="BATCH" />  
+        <!-- 数据库超过25000秒仍未响应则超时 -->  
+        <setting name="defaultStatementTimeout" value="25000" />  
+         <!-- 打印查询语句 -->
+        <!-- <setting name="logImpl" value="STDOUT_LOGGING" /> -->
+    </settings>
+    
+    <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径 -->
+    <typeAliases>  
+    	<!-- 1、针对单个别名定义，alias：别名，type：类型的路径 -->
+		<!-- <typeAlias alias="user type="cn.itcast.mybatis.po.User""/> -->
+		
+		<!-- 2、批量别名定义	指定包名，mybatis自动扫描包中的po类，自动定义别名，别名就是类名（首字母大写或小写都可以）--> 
+        <!-- <package name="cn.itcast.mybatis.po"/> --> 
+    </typeAliases>
+    
+    <!-- 非注解的sql映射文件配置，如果使用mybatis注解，该mapper无需配置，但是如果mybatis注解中包含@resultMap注解，则mapper必须配置，给resultMap注解使用 -->  
+    <plugins>
+    	<!-- com.github.pagehelper为PageHelper类所在包名 -->
+	    <plugin interceptor="com.github.pagehelper.PageHelper">
+	        <!-- 4.0.0以后版本可以不设置该参数 -->
+	        <property name="dialect" value="mysql"/>
+	        <!-- 该参数默认为false -->
+	        <!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
+	        <!-- 和startPage中的pageNum效果一样-->
+	        <property name="offsetAsPageNum" value="true"/>
+	        <!-- 该参数默认为false -->
+	        <!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+	        <property name="rowBoundsWithCount" value="true"/>
+	        <!-- 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果 -->
+	        <!-- （相当于没有执行分页查询，但是返回结果仍然是Page类型）-->
+	        <property name="pageSizeZero" value="true"/>
+	        <!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+	        <!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+	        <!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+	        <property name="reasonable" value="false"/>
+	        <!-- 3.5.0版本可用 - 为了支持startPage(Object params)方法 -->
+	        <!-- 增加了一个`params`参数来配置参数映射，用于从Map或ServletRequest中取值 -->
+	        <!-- 可以配置pageNum,pageSize,count,pageSizeZero,reasonable,orderBy,不配置映射的用默认值 -->
+	        <!-- 不理解该含义的前提下，不要随便复制该配置 -->
+	        <!-- <property name="params" value="pageNum=pageHelperStart;pageSize=pageHelperRows;"/> -->
+	        <!-- 支持通过Mapper接口参数来传递分页参数 -->
+	        <property name="supportMethodsArguments" value="false"/>
+	        <!-- always总是返回PageInfo类型,check检查返回类型是否为PageInfo,none返回Page -->
+	        <property name="returnPageInfo" value="none"/>
+	    </plugin>
+	</plugins>
+	
+    <!-- environment 元素体中包含对事务管理和连接池的环境配置，和spring整合后 environments配置将废除-->
+    <!-- type分三种
+	JDBC ： 使用JDBC事务管理，由mybatis控制
+	UNPOOLED ： 每次被请求时简单打开和关闭连接，数据源仅仅用来配置以下 4 种属性driver，url，username，password  
+	POOLED ：JDBC连接对象的数据源连接池的实现，不直接支持第三方数据库连接池 ，使用POOLED数据库连接池，由mybatis管理
+    -->
+    <!--
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	 -->
+	
+	<!-- 配置ORM映射文件 -->
+	<mappers>
+		<!-- 1、通过resource方法一次加载一个映射文件  -->
+		<!-- <mapper resource="mapper/UserMapper.xml"/> -->
+		
+		<!-- 2、通过mapper接口加载单个映射文件
+		遵循的规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录中
+		规范的前提：使用的是mapper代理方法
+		-->
+		<!-- <mapper class="cn.itcast.mybatis.mapper.UserMapper"/> -->
+		
+		<!-- 3、批量加载mapper
+		指定mapper接口的包名，mybatis自动扫描包下边所有mapper接口进行加载
+		遵循的规范：需要将mapper接口类名和mapper.xml映射文件名称保持一致，且在一个目录 中
+		规范的前提：使用的是mapper代理方法
+		-->
+		<!-- <package name="cn.itcast.mybatis.mapper"/> -->
+	</mappers>
+	
+	<!-- 注意：
+	①xml中的标签顺序不能随便调换，否则会提示错误
+	②MyBatis使用自带的数据库连接池，不直接支持第三方连接池，不过网上有创建第三方连接池的方法
+	③以前别名（<typeAliases>）可以在sqlMap标签中创建，但现在需要在configuration标签中创建
+	④该配置文件可随意取名，在读取配置文件时指定该XML文件路径即可：
+		//读取核心配置文件  
+		Reader reader = Resources.getResourceAsReader("com/web/myapp/mybatis-context.xml");  
+		//创建SessionFactory实例  
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+	-->
+
+</configuration>  
