@@ -19,7 +19,14 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 	
+	<!-- 对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+	<context:component-scan base-package="com.web.myapp">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	
 	<!--避免IE执行AJAX返回JSON时，出现下载文件 -->
+	<!-- 
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<list>
@@ -28,14 +35,15 @@
                 <value>application/json;charset=UTF-8</value>
 			</list>
 		</property>
-		<!-- 
+		
 		<property name="objectMapper">
         	<bean class="com.zaicent.paypos.yitian.utils.ObjectMappingCustomer"></bean>
         </property> 
-        -->
+       
 	</bean>
-	
+	 -->
 	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射-->
+	<!-- 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
 			<list>
@@ -48,12 +56,12 @@
 	                    </list>  
 	                </property>  
             	</bean>  
-				<!-- JSON转换-->
+				JSON转换
 				<ref bean="mappingJacksonHttpMessageConverter" />
 			</list>
 		</property>
 	</bean>
-	
+	 -->
 	<!-- 定义跳转的文件的前后，视图模式配 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
@@ -67,7 +75,7 @@
 		<!-- 默认编码 -->
 		<property name="defaultEncoding" value="utf-8" />
 		<!-- 上传临时保存目录名 ，带文件上传完成之后会自动删除保存的文件 -->
-		<property name="uploadTempDir" value="/uploadDir/temp" />
+		<!-- <property name="uploadTempDir" value="/uploadDir/temp" /> -->
 		<!-- 文件大小最大值 -->
 		<property name="maxUploadSize" value="10485760000" />
 		<!-- 内存中的最大值 -->
@@ -75,6 +83,7 @@
 	</bean>
 	
 	<!-- 处理responseBody里面日期类型 -->
+	<!-- 
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
@@ -90,7 +99,7 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-    
+     -->
     <!-- 设置,可用链接访问项目目录下的更新配置文件 -->
     <mvc:resources mapping="/*.txt" location="/" cache-period="31556926" />
     <mvc:resources mapping="/*.apk" location="/" cache-period="31556926" />

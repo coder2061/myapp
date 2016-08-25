@@ -23,7 +23,7 @@
 	<input type="submit" value="提交" id="subm"/><br/><br/>
 </form>
 </div>
-<script src="<%= request.getContextPath() %>/static/js/jquery-1.9.1.min.js"></script>
+<script src="<%= request.getContextPath() %>/common/js/jquery-1.9.1.min.js"></script>
 <script >
 	$(function() {
         $("#textBtn").click(function() {

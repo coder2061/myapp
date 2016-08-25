@@ -33,5 +33,12 @@ public class UserController {
 		return model;
 
 	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ModelAndView test() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("jsp/commonTest");
+		return model;
+	}
 
 }

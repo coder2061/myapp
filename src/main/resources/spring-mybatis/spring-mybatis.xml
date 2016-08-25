@@ -20,9 +20,11 @@
 	    http://www.springframework.org/schema/util/spring-util-3.2.xsd">
     
     <!-- 引入配置文件 -->  
-    <!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+    <!-- 
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="location" value="classpath:jdbc.properties" />  
-    </bean> -->
+    </bean> 
+    -->
 	<context:property-placeholder location="classpath:jdbc.properties" />
     <!--创建jdbc数据源 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -165,7 +167,7 @@
 	</tx:advice>
 	<!-- 只对业务逻辑层实施事务 -->
 	<aop:config expose-proxy="true" proxy-target-class="true">
-		<aop:pointcut id="txPointcut" expression="execution(* com.web.myapp.user.service..*+.*(..))" />
+		<aop:pointcut id="txPointcut" expression="execution(* com.web.myapp.module.service..*+.*(..))" />
 		<aop:advisor id="txAdvisor" advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
 	
