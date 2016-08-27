@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">  
     <!-- 添加调度的任务-bean 配置对应的调度类-class-->  
-    <bean id="datasyncSchedule" class="com.zaicent.datasync.schedule.DatasyncSchedule" />
+    <bean id="mySchedule" class="com.web.myapp.demo.schedule.ConfigureSchedule" />
     <!-- <bean id="myQuartzSchedule" class="com.zaicent.memberCard.controller.DatasyncController" >
     	<property name="myQuartzScheduleURL">
     		<value>localhost:8080/zymember/datasync/datasync</value>
@@ -11,20 +11,20 @@
     </bean> -->
     
     <!--配置调度具体执行的方法-->  
-    <bean id="datasyncDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
+    <bean id="myScheduleDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">  
         <!-- 配置调度对象类  -->
-        <property name="targetObject" ref="datasyncSchedule" />
+        <property name="targetObject" ref="mySchedule" />
         <!-- 配置调度方法 -->  
-        <property name="targetMethod" value="datasync" />
+        <property name="targetMethod" value="testConfigure" />
         <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
         <property name="concurrent" value="true" />
     </bean>
   
     <!--配置调度执行的触发的时间-->  
-    <bean id="datasyncTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
-        <property name="jobDetail" ref="datasyncDetail" />  
+    <bean id="myScheduleTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
+        <property name="jobDetail" ref="myScheduleDetail" />  
         <!-- cron表达式 ，配置调度触发时间(在线生成工具：http://www.cronmaker.com/) 每天早上8点执行任务调度 -->  
-        <property name="cronExpression" value="0 0 8 * * ?" />
+        <property name="cronExpression" value="0/5 * * * * ?" />
 		<!-- 调度工厂实例化后，经过0秒开始执行调度 -->
         <!-- <property name="startDelay" value="0" /> -->
         <!-- 间隔时间内每5秒重复调度一次 -->  
@@ -32,19 +32,13 @@
 		<!-- 间隔时间内重复调度次数 -->  
         <!-- <property name="repeatCount" value="2" /> -->
     </bean>
-    <bean id="integralTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">  
-        <property name="jobDetail" ref="integralDetail" />
-        <!-- 每天凌晨1点执行任务调度 --> 
-		<property name="cronExpression" value="0 0 1 * * ?" />
-    </bean>
   
     <!-- quartz的调度工厂 调度工厂只能有一个，多个调度任务在list中添加	lazy-init='false'表容器启动就会执行调度程序  -->  
     <bean id="startQuartz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
         <property name="triggers">  
             <!-- 所有的调度列表-->  
             <list>
-            	<!-- 跨服务器数据同步 -->
-                <!-- <ref local="datasyncTrigger" /> -->
+                <ref local="myScheduleTrigger" />
             </list>
         </property>  
         <property name="autoStartup" value="true"></property>

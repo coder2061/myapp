@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +36,7 @@ public class FileOperateUtil {
 
 	/**
 	 * @Title: rename
-	 * @Description: 将上传的文件进行重命名
+	 * Function: 将上传的文件进行重命名
 	 * @param name
 	 *            文件名
 	 * @return String 重命名后的文件名
@@ -57,7 +56,7 @@ public class FileOperateUtil {
 
 	/**
 	 * @Title: upload
-	 * @Description: 上传文件
+	 * Function: 上传文件
 	 * @param request
 	 *            http请求
 	 * @param uploadDir
@@ -135,7 +134,7 @@ public class FileOperateUtil {
 
 	/**
 	 * @Title: download
-	 * @Description: 下载文件
+	 * Function: 下载文件
 	 * @param request
 	 *            http请求
 	 * @param response
@@ -175,7 +174,7 @@ public class FileOperateUtil {
 
 	/**
 	 * @Title: deleteFile
-	 * @Description: 删除单个文件
+	 * Function: 删除单个文件
 	 * @param @param fileName 文件路径
 	 * @param @return
 	 * @return boolean

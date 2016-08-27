@@ -161,7 +161,7 @@ public class VoUtil {
 
 	/**
 	 * @Title: injectVoToEntity
-	 * @Description: 将参数对象相关属性值放入对应的实体对象属性中
+	 * Function: 将参数对象相关属性值放入对应的实体对象属性中
 	 * @param voObj
 	 *		 参数对象（用来与用户交互的对象）
 	 * 
