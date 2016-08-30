@@ -13,7 +13,7 @@ import com.web.myapp.util.DateUtils;
 public class ConfigureSchedule {
 	
 	public void testConfigure(){
-		System.out.println("定时任务：quartz123配置实现，时间：" + DateUtils.getDateStrByPattern(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		System.out.println("定时任务：quartz配置实现，时间：" + DateUtils.getDateStrByPattern(new Date(), "yyyy-MM-dd HH:mm:ss"));
 	}
 
 }

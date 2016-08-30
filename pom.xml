@@ -16,6 +16,8 @@
     <spring.version>4.3.2.RELEASE</spring.version>  
     <!-- mybatis版本号 -->  
     <mybatis.version>3.2.6</mybatis.version>
+    <!-- quartz版本号 -->
+    <quartz.version>2.2.2</quartz.version>
     <jdk.version>1.8</jdk.version>
 	<jstl.version>1.2</jstl.version>
 	<druid.version>1.0.9</druid.version>
@@ -40,7 +42,7 @@
     <dependency>  
 	    <groupId>org.quartz-scheduler</groupId>  
 	    <artifactId>quartz</artifactId>  
-	    <version>1.8.6</version>  
+	    <version>${quartz.version}</version>  
 	</dependency>
 	<!-- WebService -->
 	<dependency>
@@ -323,7 +325,14 @@
 		<artifactId>log4j-over-slf4j</artifactId>
 		<version>${slf4j.version}</version>
 	</dependency>
-    
+	<!-- logback -->
+	<!-- 
+	<dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.1.0</version>
+    </dependency>
+     -->
 	<!-- 上传组件包 -->
 	<dependency>
 		<groupId>commons-fileupload</groupId>
