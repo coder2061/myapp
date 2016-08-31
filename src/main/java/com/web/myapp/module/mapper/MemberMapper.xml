@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.web.myapp.module.dao.MemberDao">
+  <resultMap id="BaseResultMap" type="com.web.myapp.module.entity.Member">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="NickName" jdbcType="VARCHAR" property="nickname" />
+    <result column="Gender" jdbcType="BIT" property="gender" />
+    <result column="Birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="HeadPic" jdbcType="VARCHAR" property="headpic" />
+    <result column="SpacePic" jdbcType="VARCHAR" property="spacepic" />
+    <result column="Passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="Mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="Email" jdbcType="VARCHAR" property="email" />
+    <result column="QQ" jdbcType="VARCHAR" property="qq" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="PostCode" jdbcType="VARCHAR" property="postcode" />
+    <result column="Level" jdbcType="TINYINT" property="level" />
+    <result column="LastLoginTime" jdbcType="TIMESTAMP" property="lastlogintime" />
+    <result column="IsLock" jdbcType="BIT" property="islock" />
+    <result column="IsLogin" jdbcType="BIT" property="islogin" />
+    <result column="LockTime" jdbcType="TIMESTAMP" property="locktime" />
+    <result column="EncryptedID" jdbcType="VARCHAR" property="encryptedid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, Name, NickName, Gender, Birthday, HeadPic, SpacePic, Passwd, Mobile, Email, QQ, 
+    CreateTime, Address, PostCode, Level, LastLoginTime, IsLock, IsLogin, LockTime, EncryptedID
+  </sql>
+  <select id="selectByExample" parameterType="com.web.myapp.module.entity.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart!=null and limitStart&gt;=0">
+      limit ${limitStart}, ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.web.myapp.module.entity.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.web.myapp.module.entity.Member">
+    insert into member (ID, Name, NickName, 
+      Gender, Birthday, HeadPic, 
+      SpacePic, Passwd, Mobile, 
+      Email, QQ, CreateTime, 
+      Address, PostCode, Level, 
+      LastLoginTime, IsLock, IsLogin, 
+      LockTime, EncryptedID)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=BIT}, #{birthday,jdbcType=TIMESTAMP}, #{headpic,jdbcType=VARCHAR}, 
+      #{spacepic,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{level,jdbcType=TINYINT}, 
+      #{lastlogintime,jdbcType=TIMESTAMP}, #{islock,jdbcType=BIT}, #{islogin,jdbcType=BIT}, 
+      #{locktime,jdbcType=TIMESTAMP}, #{encryptedid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.web.myapp.module.entity.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="nickname != null">
+        NickName,
+      </if>
+      <if test="gender != null">
+        Gender,
+      </if>
+      <if test="birthday != null">
+        Birthday,
+      </if>
+      <if test="headpic != null">
+        HeadPic,
+      </if>
+      <if test="spacepic != null">
+        SpacePic,
+      </if>
+      <if test="passwd != null">
+        Passwd,
+      </if>
+      <if test="mobile != null">
+        Mobile,
+      </if>
+      <if test="email != null">
+        Email,
+      </if>
+      <if test="qq != null">
+        QQ,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="postcode != null">
+        PostCode,
+      </if>
+      <if test="level != null">
+        Level,
+      </if>
+      <if test="lastlogintime != null">
+        LastLoginTime,
+      </if>
+      <if test="islock != null">
+        IsLock,
+      </if>
+      <if test="islogin != null">
+        IsLogin,
+      </if>
+      <if test="locktime != null">
+        LockTime,
+      </if>
+      <if test="encryptedid != null">
+        EncryptedID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headpic != null">
+        #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="spacepic != null">
+        #{spacepic,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="lastlogintime != null">
+        #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islock != null">
+        #{islock,jdbcType=BIT},
+      </if>
+      <if test="islogin != null">
+        #{islogin,jdbcType=BIT},
+      </if>
+      <if test="locktime != null">
+        #{locktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="encryptedid != null">
+        #{encryptedid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.web.myapp.module.entity.MemberExample" resultType="java.lang.Integer">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null">
+        NickName = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        Gender = #{record.gender,jdbcType=BIT},
+      </if>
+      <if test="record.birthday != null">
+        Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.headpic != null">
+        HeadPic = #{record.headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spacepic != null">
+        SpacePic = #{record.spacepic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwd != null">
+        Passwd = #{record.passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        Mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        Email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null">
+        QQ = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        PostCode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        Level = #{record.level,jdbcType=TINYINT},
+      </if>
+      <if test="record.lastlogintime != null">
+        LastLoginTime = #{record.lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.islock != null">
+        IsLock = #{record.islock,jdbcType=BIT},
+      </if>
+      <if test="record.islogin != null">
+        IsLogin = #{record.islogin,jdbcType=BIT},
+      </if>
+      <if test="record.locktime != null">
+        LockTime = #{record.locktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.encryptedid != null">
+        EncryptedID = #{record.encryptedid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set ID = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      NickName = #{record.nickname,jdbcType=VARCHAR},
+      Gender = #{record.gender,jdbcType=BIT},
+      Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      HeadPic = #{record.headpic,jdbcType=VARCHAR},
+      SpacePic = #{record.spacepic,jdbcType=VARCHAR},
+      Passwd = #{record.passwd,jdbcType=VARCHAR},
+      Mobile = #{record.mobile,jdbcType=VARCHAR},
+      Email = #{record.email,jdbcType=VARCHAR},
+      QQ = #{record.qq,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      Address = #{record.address,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=VARCHAR},
+      Level = #{record.level,jdbcType=TINYINT},
+      LastLoginTime = #{record.lastlogintime,jdbcType=TIMESTAMP},
+      IsLock = #{record.islock,jdbcType=BIT},
+      IsLogin = #{record.islogin,jdbcType=BIT},
+      LockTime = #{record.locktime,jdbcType=TIMESTAMP},
+      EncryptedID = #{record.encryptedid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.web.myapp.module.entity.Member">
+    update member
+    <set>
+      <if test="name != null">
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        NickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        Gender = #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null">
+        Birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headpic != null">
+        HeadPic = #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="spacepic != null">
+        SpacePic = #{spacepic,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        Passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        Mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        QQ = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        PostCode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        Level = #{level,jdbcType=TINYINT},
+      </if>
+      <if test="lastlogintime != null">
+        LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islock != null">
+        IsLock = #{islock,jdbcType=BIT},
+      </if>
+      <if test="islogin != null">
+        IsLogin = #{islogin,jdbcType=BIT},
+      </if>
+      <if test="locktime != null">
+        LockTime = #{locktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="encryptedid != null">
+        EncryptedID = #{encryptedid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.web.myapp.module.entity.Member">
+    update member
+    set Name = #{name,jdbcType=VARCHAR},
+      NickName = #{nickname,jdbcType=VARCHAR},
+      Gender = #{gender,jdbcType=BIT},
+      Birthday = #{birthday,jdbcType=TIMESTAMP},
+      HeadPic = #{headpic,jdbcType=VARCHAR},
+      SpacePic = #{spacepic,jdbcType=VARCHAR},
+      Passwd = #{passwd,jdbcType=VARCHAR},
+      Mobile = #{mobile,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      QQ = #{qq,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      Address = #{address,jdbcType=VARCHAR},
+      PostCode = #{postcode,jdbcType=VARCHAR},
+      Level = #{level,jdbcType=TINYINT},
+      LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      IsLock = #{islock,jdbcType=BIT},
+      IsLogin = #{islogin,jdbcType=BIT},
+      LockTime = #{locktime,jdbcType=TIMESTAMP},
+      EncryptedID = #{encryptedid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.web.myapp.module.entity.Member">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="NickName" jdbcType="VARCHAR" property="nickname" />
+    <result column="Gender" jdbcType="BIT" property="gender" />
+    <result column="Birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="HeadPic" jdbcType="VARCHAR" property="headpic" />
+    <result column="SpacePic" jdbcType="VARCHAR" property="spacepic" />
+    <result column="Passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="Mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="Email" jdbcType="VARCHAR" property="email" />
+    <result column="QQ" jdbcType="VARCHAR" property="qq" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="PostCode" jdbcType="VARCHAR" property="postcode" />
+    <result column="Level" jdbcType="TINYINT" property="level" />
+    <result column="LastLoginTime" jdbcType="TIMESTAMP" property="lastlogintime" />
+    <result column="IsLock" jdbcType="BIT" property="islock" />
+    <result column="IsLogin" jdbcType="BIT" property="islogin" />
+    <result column="LockTime" jdbcType="TIMESTAMP" property="locktime" />
+    <result column="EncryptedID" jdbcType="VARCHAR" property="encryptedid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, Name, NickName, Gender, Birthday, HeadPic, SpacePic, Passwd, Mobile, Email, QQ, 
+    CreateTime, Address, PostCode, Level, LastLoginTime, IsLock, IsLogin, LockTime, EncryptedID
+  </sql>
+  <select id="selectByExample" parameterType="com.web.myapp.module.entity.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart!=null and limitStart&gt;=0">
+      limit ${limitStart}, ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.web.myapp.module.entity.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.web.myapp.module.entity.Member">
+    insert into member (ID, Name, NickName, 
+      Gender, Birthday, HeadPic, 
+      SpacePic, Passwd, Mobile, 
+      Email, QQ, CreateTime, 
+      Address, PostCode, Level, 
+      LastLoginTime, IsLock, IsLogin, 
+      LockTime, EncryptedID)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=BIT}, #{birthday,jdbcType=TIMESTAMP}, #{headpic,jdbcType=VARCHAR}, 
+      #{spacepic,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{level,jdbcType=TINYINT}, 
+      #{lastlogintime,jdbcType=TIMESTAMP}, #{islock,jdbcType=BIT}, #{islogin,jdbcType=BIT}, 
+      #{locktime,jdbcType=TIMESTAMP}, #{encryptedid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.web.myapp.module.entity.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="nickname != null">
+        NickName,
+      </if>
+      <if test="gender != null">
+        Gender,
+      </if>
+      <if test="birthday != null">
+        Birthday,
+      </if>
+      <if test="headpic != null">
+        HeadPic,
+      </if>
+      <if test="spacepic != null">
+        SpacePic,
+      </if>
+      <if test="passwd != null">
+        Passwd,
+      </if>
+      <if test="mobile != null">
+        Mobile,
+      </if>
+      <if test="email != null">
+        Email,
+      </if>
+      <if test="qq != null">
+        QQ,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="postcode != null">
+        PostCode,
+      </if>
+      <if test="level != null">
+        Level,
+      </if>
+      <if test="lastlogintime != null">
+        LastLoginTime,
+      </if>
+      <if test="islock != null">
+        IsLock,
+      </if>
+      <if test="islogin != null">
+        IsLogin,
+      </if>
+      <if test="locktime != null">
+        LockTime,
+      </if>
+      <if test="encryptedid != null">
+        EncryptedID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headpic != null">
+        #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="spacepic != null">
+        #{spacepic,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=TINYINT},
+      </if>
+      <if test="lastlogintime != null">
+        #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islock != null">
+        #{islock,jdbcType=BIT},
+      </if>
+      <if test="islogin != null">
+        #{islogin,jdbcType=BIT},
+      </if>
+      <if test="locktime != null">
+        #{locktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="encryptedid != null">
+        #{encryptedid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.web.myapp.module.entity.MemberExample" resultType="java.lang.Integer">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null">
+        NickName = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null">
+        Gender = #{record.gender,jdbcType=BIT},
+      </if>
+      <if test="record.birthday != null">
+        Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.headpic != null">
+        HeadPic = #{record.headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spacepic != null">
+        SpacePic = #{record.spacepic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwd != null">
+        Passwd = #{record.passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        Mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        Email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null">
+        QQ = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null">
+        PostCode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        Level = #{record.level,jdbcType=TINYINT},
+      </if>
+      <if test="record.lastlogintime != null">
+        LastLoginTime = #{record.lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.islock != null">
+        IsLock = #{record.islock,jdbcType=BIT},
+      </if>
+      <if test="record.islogin != null">
+        IsLogin = #{record.islogin,jdbcType=BIT},
+      </if>
+      <if test="record.locktime != null">
+        LockTime = #{record.locktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.encryptedid != null">
+        EncryptedID = #{record.encryptedid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set ID = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      NickName = #{record.nickname,jdbcType=VARCHAR},
+      Gender = #{record.gender,jdbcType=BIT},
+      Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      HeadPic = #{record.headpic,jdbcType=VARCHAR},
+      SpacePic = #{record.spacepic,jdbcType=VARCHAR},
+      Passwd = #{record.passwd,jdbcType=VARCHAR},
+      Mobile = #{record.mobile,jdbcType=VARCHAR},
+      Email = #{record.email,jdbcType=VARCHAR},
+      QQ = #{record.qq,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      Address = #{record.address,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=VARCHAR},
+      Level = #{record.level,jdbcType=TINYINT},
+      LastLoginTime = #{record.lastlogintime,jdbcType=TIMESTAMP},
+      IsLock = #{record.islock,jdbcType=BIT},
+      IsLogin = #{record.islogin,jdbcType=BIT},
+      LockTime = #{record.locktime,jdbcType=TIMESTAMP},
+      EncryptedID = #{record.encryptedid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.web.myapp.module.entity.Member">
+    update member
+    <set>
+      <if test="name != null">
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        NickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        Gender = #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null">
+        Birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headpic != null">
+        HeadPic = #{headpic,jdbcType=VARCHAR},
+      </if>
+      <if test="spacepic != null">
+        SpacePic = #{spacepic,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        Passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        Mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        QQ = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null">
+        PostCode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        Level = #{level,jdbcType=TINYINT},
+      </if>
+      <if test="lastlogintime != null">
+        LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islock != null">
+        IsLock = #{islock,jdbcType=BIT},
+      </if>
+      <if test="islogin != null">
+        IsLogin = #{islogin,jdbcType=BIT},
+      </if>
+      <if test="locktime != null">
+        LockTime = #{locktime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="encryptedid != null">
+        EncryptedID = #{encryptedid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.web.myapp.module.entity.Member">
+    update member
+    set Name = #{name,jdbcType=VARCHAR},
+      NickName = #{nickname,jdbcType=VARCHAR},
+      Gender = #{gender,jdbcType=BIT},
+      Birthday = #{birthday,jdbcType=TIMESTAMP},
+      HeadPic = #{headpic,jdbcType=VARCHAR},
+      SpacePic = #{spacepic,jdbcType=VARCHAR},
+      Passwd = #{passwd,jdbcType=VARCHAR},
+      Mobile = #{mobile,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      QQ = #{qq,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      Address = #{address,jdbcType=VARCHAR},
+      PostCode = #{postcode,jdbcType=VARCHAR},
+      Level = #{level,jdbcType=TINYINT},
+      LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
+      IsLock = #{islock,jdbcType=BIT},
+      IsLogin = #{islogin,jdbcType=BIT},
+      LockTime = #{locktime,jdbcType=TIMESTAMP},
+      EncryptedID = #{encryptedid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
