@@ -81,7 +81,9 @@
 		</constructor-arg>
 	</bean>
 
+	<!-- 
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	
+	<import resource="classpath:cluster/spring-quartz.xml"></import>
+	 -->
 
 </beans>

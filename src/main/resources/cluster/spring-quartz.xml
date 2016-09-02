@@ -47,22 +47,15 @@
   
     <!-- quartz的调度工厂 调度工厂只能有一个，多个调度任务在list中添加	lazy-init='false'表容器启动就会执行调度程序  -->  
     <bean id="startQuartz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">  
+        <property name="autoStartup" value="true"></property>
+        <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>
+        <property name="configLocation" value="classpath:quartz.properties"/> 
         <property name="triggers">  
             <!-- 所有的调度列表-->  
             <list>
                 <ref local="myScheduleTrigger" />
             </list>
         </property>  
-        <property name="autoStartup" value="true"></property>
-        <property name="quartzProperties">
-			<props>
-				<!-- 随机存储，非持久化 -->
-				<prop key="org.quartz.jobStore.class">org.quartz.simpl.RAMJobStore</prop>
-				<!-- 线程池 -->
-				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
-				<prop key="org.quartz.threadPool.threadCount">10</prop>
-			</props>
-		</property>   
     </bean>  
   
 </beans>   
