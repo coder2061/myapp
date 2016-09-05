@@ -7,10 +7,11 @@
 	<context id="context1">
 		<plugin type="com.web.myapp.generator.MybatisGenerator" />
 		
-		<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+		<!-- 注释生成器 -->
 		<commentGenerator>
             <property name="suppressDate" value="false"/>
-            <property name="suppressAllComments" value="true"/>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false"/>
 		</commentGenerator>
 
 		<!-- jdbc连接 -->
@@ -31,12 +32,12 @@
 		</javaModelGenerator>
 
 		<!-- 生成的mapper文件 -->
-		<sqlMapGenerator targetPackage="com.web.myapp.module.sqlmap" targetProject=".\src\main\java">
+		<sqlMapGenerator targetPackage="com.web.myapp.module.mapper" targetProject=".\src\main\java">
 			<!-- 是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
 
-		<!-- 生成的查询接口 -->
+		<!-- 生成的应用接口 -->
 		<javaClientGenerator type="XMLMAPPER" targetPackage="com.web.myapp.module.dao" targetProject=".\src\main\java">
 			<!-- 是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />

@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @version V1.0   
  */
 @RunWith(SpringJUnit4ClassRunner.class) // 运行Spring测试环境
-@ContextConfiguration(locations = {"classpath*:/spring-mvc/spring-web.xml"}) // 加载Spring的配置文件
+@ContextConfiguration(locations = {"classpath*:/spring/spring-context.xml"}) // 加载Spring的配置文件
 public class BaseTranscationJunitTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 }

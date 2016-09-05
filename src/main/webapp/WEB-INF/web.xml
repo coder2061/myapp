@@ -32,7 +32,7 @@
 	<!-- 加载Spring XML配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring-mvc/spring-web.xml
+		<param-value>classpath:spring/spring-context.xml
 	        <!-- 
 			classpath:spring-mvc/spring-context.xml,
 			classpath:spring-mvc/spring-mvc.xml,
@@ -100,7 +100,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				classpath:spring-mvc/spring-web.xml
+				classpath:spring/spring-context.xml
 			</param-value>
 		</init-param>
 		<!-- 控制servlet的加载顺序 -->
