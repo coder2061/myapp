@@ -24,6 +24,7 @@ import com.web.myapp.util.StringUtils;
  * @version V1.0   
  */
 @Controller
+@RequestMapping("user")
 public class UserController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
@@ -45,6 +46,13 @@ public class UserController {
 	public ModelAndView test() {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("jsp/commonTest");
+		return model;
+	}
+	
+	@RequestMapping(value = "/check", method = RequestMethod.GET)
+	public ModelAndView check() {
+		ModelAndView model = new ModelAndView();
+		model.setViewName("jsp/checkCard");
 		return model;
 	}
 	

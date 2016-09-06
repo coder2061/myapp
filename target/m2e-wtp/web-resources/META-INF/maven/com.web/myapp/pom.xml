@@ -10,21 +10,33 @@
   <name>myapp Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
+  <!-- 项目的详细描述,Maven产生的文档用。
+	  当这个元素能够用HTML格式描述时（例如，CDATA中的文本会被解析器忽略，就可以包含HTML标签），
+	  不鼓励使用纯文本描述。如果你需要修改产生的web站点的索引页面，你应该修改你自己的索引页文件，而不是调整这里的文档。
+   -->
+  <description>myapp</description>
+
+  <!-- 属性配置 -->
   <properties>
   	<webapp.name>myapp</webapp.name>
-    <!-- spring版本号 -->  
+    <!-- spring -->  
     <spring.version>4.3.2.RELEASE</spring.version>  
-    <!-- mybatis版本号 -->  
+    <!-- mybatis -->  
     <mybatis.version>3.2.6</mybatis.version>
-    <!-- quartz版本号 -->
+    <mybatis-spring.version>1.2.2</mybatis-spring.version>
+    <mybatis-generator-core.version>1.3.2</mybatis-generator-core.version>
+    <!-- quartz -->
     <quartz.version>2.2.2</quartz.version>
     <jdk.version>1.8</jdk.version>
 	<jstl.version>1.2</jstl.version>
 	<druid.version>1.0.9</druid.version>
-	<junit.version>4.10</junit.version>
+	<junit.version>4.12</junit.version>
 	<log4j.version>1.2.17</log4j.version>
 	<slf4j.version>1.6.6</slf4j.version>
-	<jackson.version>1.9.5</jackson.version>
+	<logback.version>1.1.2</logback.version>
+	<jackson.version>1.9.6</jackson.version>
+	<fasterxml.jackson.version>2.1.4</fasterxml.jackson.version>
+	<pagehelper.verson>4.1.6</pagehelper.verson>
 	<commons-lang3.version>3.1</commons-lang3.version>
 	<commons-io.version>2.4</commons-io.version>
 	<commons-codec.version>1.3</commons-codec.version>
@@ -62,14 +74,20 @@
     <dependency>  
         <groupId>org.mybatis</groupId>  
         <artifactId>mybatis-spring</artifactId>  
-        <version>1.2.2</version>  
+        <version>${mybatis-spring.version}</version>  
     </dependency>
-    <!-- 自动生成mybatis单表操作bean和xml -->
+    <!-- mybatis自动生成POJO，Dao和Mapper -->
 	<dependency>
 		<groupId>org.mybatis.generator</groupId>
 		<artifactId>mybatis-generator-core</artifactId>
-		<version>1.3.2</version>
+		<version>${mybatis-generator-core.version}</version>
 		<scope>compile</scope>
+	</dependency>
+	<!-- PageHelper 分页插件，配合mybatis进行分页查询  -->
+	<dependency>
+   		<groupId>com.github.pagehelper</groupId>
+  		<artifactId>pagehelper</artifactId>
+      	<version>${pagehelper.verson}</version>
 	</dependency>
     <!-- spring核心组件 -->  
     <dependency>  
@@ -91,12 +109,19 @@
         <groupId>org.springframework</groupId>  
         <artifactId>spring-jdbc</artifactId>  
         <version>${spring.version}</version>  
+    </dependency>
+    <!-- 关系型数据库整合时需配置 如hibernate、jpa等 -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${spring.version}</version>
     </dependency>  
     <dependency>  
         <groupId>org.springframework</groupId>  
         <artifactId>spring-oxm</artifactId>  
         <version>${spring.version}</version>  
-    </dependency>  
+    </dependency>
+    <!-- 整合单元测试框架 -->  
     <dependency>  
         <groupId>org.springframework</groupId>  
         <artifactId>spring-test</artifactId>  
@@ -111,7 +136,8 @@
         <groupId>org.springframework</groupId>  
         <artifactId>spring-web</artifactId>  
         <version>${spring.version}</version>  
-    </dependency>  
+    </dependency>
+    <!-- spring-mvc -->  
     <dependency>  
         <groupId>org.springframework</groupId>  
         <artifactId>spring-webmvc</artifactId>  
@@ -130,6 +156,11 @@
 		<artifactId>javax.servlet.jsp-api</artifactId>
 		<version>2.3.1</version>
 		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+		<version>${jstl.version}</version>
 	</dependency>
 	
 	<!-- spring-mvc映射POJO对象使用的json类库 -->
@@ -153,10 +184,21 @@
 		<artifactId>jackson-mapper-lgpl</artifactId>
 		<version>${jackson.version}</version>
 	</dependency>
+	<!-- spring-mvc映射POJO对象使用的json类库 -->
+	<dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>${fasterxml.jackson.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${fasterxml.jackson.version}</version>
+    </dependency>
 	<dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
 		<artifactId>jackson-databind</artifactId>
-		<version>2.8.0</version>
+		<version>${fasterxml.jackson.version}</version>
 	</dependency>
 	
 	<!-- aop代理 -->
@@ -190,7 +232,7 @@
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>5.1.20</version>
 	</dependency>
-	<!-- DataSource -->
+	<!-- DataSource连接池 -->
 	<dependency>
 		<groupId>c3p0</groupId>
 		<artifactId>c3p0</artifactId>
@@ -209,13 +251,6 @@
 	</dependency>
 
 		
-	<!-- 模板组件 -->
-	<dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>jstl</artifactId>
-		<version>${jstl.version}</version>
-	</dependency>
-	
 	<!-- XML文档解析 -->
 	<dependency>
         <groupId>dom4j</groupId>
@@ -261,16 +296,43 @@
 	
 	
 	<!-- 测试组件 -->
+	<!-- jmockit单元测试 -->
+	<dependency>
+	    <groupId>org.jmockit</groupId>
+	    <artifactId>jmockit</artifactId>
+	    <version>1.26</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.jmockit</groupId>
+	    <artifactId>jmockit-coverage</artifactId>
+	    <version>1.22</version>
+	</dependency>
+	<!-- googlecode jmockit单元测试 -->
+	<dependency>  
+        <groupId>com.googlecode.jmockit</groupId>  
+        <artifactId>jmockit</artifactId>  
+        <version>1.5</version>  
+        <scope>test</scope>  
+    </dependency>  
+    <dependency>  
+        <groupId>com.googlecode.jmockit</groupId>  
+        <artifactId>jmockit-coverage</artifactId>  
+        <version>0.999.26</version>  
+        <scope>test</scope>  
+    </dependency>	
+	<!-- junit单元测试 -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+	
+	<!-- 实现 Java 与 COM 组件的互操作 -->
 	<dependency>
-	    <groupId>org.junit</groupId>
-	    <artifactId>junit5-api</artifactId>
-	    <version>5.0.0-ALPHA</version>
+	  <groupId>net.sf.jacob-project</groupId>
+	  <artifactId>jacob</artifactId>
+	  <version>1.14.3</version>
 	</dependency>
 	
 	
@@ -306,11 +368,6 @@
 	
 	<!-- 日志组件 -->
 	<dependency>
-	  <groupId>net.sf.jacob-project</groupId>
-	  <artifactId>jacob</artifactId>
-	  <version>1.14.3</version>
-	</dependency>
-	<dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
@@ -325,12 +382,34 @@
 		<artifactId>log4j-over-slf4j</artifactId>
 		<version>${slf4j.version}</version>
 	</dependency>
-	<!-- logback -->
 	<!-- 
 	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>${slf4j.version}</version>
+	</dependency>
+	 -->
+	<!-- logback -->
+	<!-- 
+    <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.1.0</version>
+        <version>${logback.version}</version>
+    </dependency>
+	<dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+        <version>${logback.version}</version>
     </dependency>
      -->
 	<!-- 上传组件包 -->
@@ -423,81 +502,124 @@
 	 -->
   
   <build>
-	  <plugins>
-	  	<!-- maven编译器 -->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<version>3.3</version>
-			<configuration>
-				<source>${jdk.version}</source>
-				<target>${jdk.version}</target>
-			</configuration>
-		</plugin>
-	
-		<!-- embedded Jetty server, for testing -->
-		<plugin>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-maven-plugin</artifactId>
-			<version>9.2.11.v20150529</version>
-			<configuration>
-				<!-- <webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory> -->
-				<!-- 在一定时间间隔内在扫描web应用检查是否有改变，如果发觉有任何改变则自动热部署。默认为0，表示禁用热部署检查。任何一个大于0的数字都将表示启用。 -->
-				<scanIntervalSeconds>10</scanIntervalSeconds>
-				<webApp>
-					<!-- 这个contex地址指向webapp.默认情况下，它被设置成该项目的pom.xml的<artifactId>。当然你也可以设置一个你喜欢的从而覆盖它。 -->
-					<contextPath>/${webapp.name}</contextPath>
+	  <pluginManagement>
+		  <plugins>
+		  	<!-- mybatis自动生成POJO，Dao和Mapper -->
+		  	<plugin>
+			    <groupId>org.mybatis.generator</groupId>
+			    <artifactId>mybatis-generator-maven-plugin</artifactId>
+			    <version>${mybatis-generator-core.version}</version>
+			    <configuration>
+			        <configurationFile>src/main/resources/mybatis-generator/generatorConfig.xml</configurationFile>
+			        <verbose>true</verbose>
+			        <overwrite>true</overwrite>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <id>Generate MyBatis Artifacts</id>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			    <dependencies>
+			        <dependency>
+			            <groupId>org.mybatis.generator</groupId>
+			            <artifactId>mybatis-generator-core</artifactId>
+			            <version>${mybatis-generator-core.version}</version>
+			        </dependency>
+			    </dependencies>
+			</plugin>
+			
+			<!-- Maven+Sonar方式：通过执行mvn sonar:sonar命令，就可以正常统计出JMockit的单元测试覆盖率 -->
+			<plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-surefire-plugin</artifactId>  
+                <version>2.12</version>  
+                <configuration>  
+                    <argLine>-javaagent:"${settings.localRepository}"/com/googlecode/jmockit/jmockit-coverage/0.999.26/jmockit-coverage-0.999.26.jar</argLine>  
+                </configuration>  
+            </plugin> 
+		  
+		  	<!-- maven编译器 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+		
+			<!-- embedded Jetty server, for testing -->
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.11.v20150529</version>
+				<configuration>
 					<!-- 
-					<descriptor>${project.basedir}/src/main/webapp/WEB-INF/web.xml</descriptor> 
-					<jettyEnvXml>${project.basedir}/src/over/here/jetty-env.xml</jettyEnvXml> 
+					<webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory> 
 					-->
-				</webApp>
-				<!-- web应用编译的classes存放的路径。很少需要设置这个参数，其实可以在你的pom.xml用<build><outputDirectory>替代它。 -->
-				<!-- <classesDirectory>${project.basedir}/somewhere/else</classesDirectory> -->
-				<!-- 周期性的扫描除了插件自动扫描外的文件和文件夹列表。 -->
-				<!-- 
-				<scanTargets> 
-					<scanTarget>src/mydir</scanTarget> 
-					<scanTarget>src/myfile.txt</scanTarget> 
-				</scanTargets> 
-				-->
-				<!-- 如果想扫描有一长串的额外文件，通过使用模式匹配表达式制定它们更加方便，
-				它可以用来替代 <scanTargets>参数的枚举展示。这个参数包含一组<scanTargetPattern>。 
-				每一个都是由一个<directory>和<includes>[或者<excludes>]参数来指定文件的匹配模式。 -->
-				<!-- 
-				<scanTargetPatterns> 
-					<scanTargetPattern> 
-					<directory>src/other-resources</directory> 
-					<includes> 
-						<include>**/*.xml</include> 
-						<include>**/*.properties</include> 
-					</includes> 
-					<excludes> 
-						<exclude>**/myspecial.xml</exclude> 
-						<exclude>**/myspecial.properties</exclude> 
-					</excludes> 
-					</scanTargetPattern> 
-				</scanTargetPatterns> 
-				-->
-				<httpConnector class="org.eclipse.jetty.server.ServerConnector">
-					<port>8090</port>
-				</httpConnector>
-			</configuration>
-		</plugin>
-	
-		<!-- configure Eclipse workspace -->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-eclipse-plugin</artifactId>
-			<version>2.9</version>
-			<configuration>
-				<downloadSources>true</downloadSources>
-				<downloadJavadocs>true</downloadJavadocs>
-				<wtpversion>2.0</wtpversion>
-				<wtpContextName>${webapp.name}</wtpContextName>
-			</configuration>
-		</plugin>
-	  </plugins>
+					<!-- 在一定时间间隔内在扫描web应用检查是否有改变，如果发觉有任何改变则自动热部署。默认为0，表示禁用热部署检查。任何一个大于0的数字都将表示启用。 -->
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webApp>
+						<!-- 这个contex地址指向webapp.默认情况下，它被设置成该项目的pom.xml的<artifactId>。当然你也可以设置一个你喜欢的从而覆盖它。 -->
+						<contextPath>/${webapp.name}</contextPath>
+						<!-- 
+						<descriptor>${project.basedir}/src/main/webapp/WEB-INF/web.xml</descriptor> 
+						<jettyEnvXml>${project.basedir}/src/over/here/jetty-env.xml</jettyEnvXml> 
+						-->
+					</webApp>
+					<!-- web应用编译的classes存放的路径。很少需要设置这个参数，其实可以在你的pom.xml用<build><outputDirectory>替代它。 -->
+					<!-- 
+					<classesDirectory>${project.basedir}/somewhere/else</classesDirectory> 
+					-->
+					<!-- 周期性的扫描除了插件自动扫描外的文件和文件夹列表。 -->
+					<!-- 
+					<scanTargets> 
+						<scanTarget>src/mydir</scanTarget> 
+						<scanTarget>src/myfile.txt</scanTarget> 
+					</scanTargets> 
+					-->
+					<!-- 如果想扫描有一长串的额外文件，通过使用模式匹配表达式制定它们更加方便，
+					它可以用来替代 <scanTargets>参数的枚举展示。这个参数包含一组<scanTargetPattern>。 
+					每一个都是由一个<directory>和<includes>[或者<excludes>]参数来指定文件的匹配模式。 -->
+					<!-- 
+					<scanTargetPatterns> 
+						<scanTargetPattern> 
+						<directory>src/other-resources</directory> 
+						<includes> 
+							<include>**/*.xml</include> 
+							<include>**/*.properties</include> 
+						</includes> 
+						<excludes> 
+							<exclude>**/myspecial.xml</exclude> 
+							<exclude>**/myspecial.properties</exclude> 
+						</excludes> 
+						</scanTargetPattern> 
+					</scanTargetPatterns> 
+					-->
+					<httpConnector class="org.eclipse.jetty.server.ServerConnector">
+						<port>8090</port>
+					</httpConnector>
+				</configuration>
+			</plugin>
+		
+			<!-- configure Eclipse workspace -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+					<wtpContextName>${webapp.name}</wtpContextName>
+				</configuration>
+			</plugin>
+		  </plugins>
+	  </pluginManagement>
 	  <finalName>${webapp.name}</finalName>
   </build>
 </project>

@@ -39,13 +39,13 @@
     </settings>
     
     <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径 -->
-    <typeAliases>  
+    <!-- <typeAliases> -->  
     	<!-- 1、针对单个别名定义，alias：别名，type：类型的路径 -->
 		<!-- <typeAlias alias="user type="cn.itcast.mybatis.po.User""/> -->
 		
 		<!-- 2、批量别名定义	指定包名，mybatis自动扫描包中的po类，自动定义别名，别名就是类名（首字母大写或小写都可以）--> 
         <!-- <package name="cn.itcast.mybatis.po"/> --> 
-    </typeAliases>
+    <!-- </typeAliases> -->
     
     <!-- 非注解的sql映射文件配置，如果使用mybatis注解，该mapper无需配置，但是如果mybatis注解中包含@resultMap注解，则mapper必须配置，给resultMap注解使用 -->  
     <plugins>
