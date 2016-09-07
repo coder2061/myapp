@@ -11,15 +11,9 @@
                         http://www.springframework.org/schema/mvc  
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	 
-	<!-- 自动扫描 -->
-    <context:component-scan base-package="com.web.myapp.module.controller" />
 	<!-- 对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
-	<!-- 
-	<context:component-scan base-package="com.web.myapp">
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
-	</context:component-scan>
-	 -->
+    <context:component-scan base-package="com.web.myapp" />
+    
 	<!--避免IE执行AJAX返回JSON时，出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes">
@@ -63,21 +57,20 @@
 		</property>
 	</bean>
 	<!-- 采用SpringMVC自带的JSON转换工具，支持@ResponseBody注解 -->
-	<!-- 
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
 			<list>
-				JSON转换器
+				<!-- JSON转换器 -->
 				<ref bean="mappingJacksonHttpMessageConverter" />
 			</list>
 		</property>
 	</bean>
-	  -->
+	
 	<!-- 定义跳转的文件的前后，视图模式配 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<!-- 自动给action方法return的字符串加上前缀和后缀变成可用的url地址 -->
-		<property name="prefix" value="/" />
+		<property name="prefix" value="/WEB-INF/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
@@ -95,9 +88,11 @@
 	
      
     <!-- 设置,可用链接访问项目目录下的更新配置文件 -->
+    <!-- 
     <mvc:resources mapping="/*.txt" location="/" cache-period="31556926" />
     <mvc:resources mapping="/*.apk" location="/" cache-period="31556926" />
-    
+     -->
+
     <!-- 配置拦截器 -->
     <!--
     <mvc:interceptors>

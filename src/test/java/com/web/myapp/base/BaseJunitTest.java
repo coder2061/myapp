@@ -12,7 +12,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @version V1.0   
  */
 @RunWith(SpringJUnit4ClassRunner.class) // 运行Spring测试环境
-@ContextConfiguration(locations = {"classpath*:/spring/spring-context.xml"}) // 加载Spring的配置文件
+@ContextConfiguration(locations = {
+		"classpath:spring-mybatis/spring-mybatis.xml", 
+		"classpath:spring-mvc/spring-mvc.xml", 
+		"classpath:spring-mvc/spring-context.xml",}) // 加载Spring的配置文件
 public class BaseJunitTest extends AbstractJUnit4SpringContextTests {
 
 }

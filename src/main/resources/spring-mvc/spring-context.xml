@@ -35,7 +35,7 @@
 	<context:property-placeholder location="classpath:resource.properties" />
 	
 	<!-- 自动扫描该包，注入业务接口层,逻辑业务层 -->
-    <context:component-scan base-package="com.web.myapp" />
+    <!-- <context:component-scan base-package="com.web.myapp" /> -->
     
 	<!-- 
 	<bean id="passwordHelper" class="com.web.myapp.core.encrypt.PasswordHelper">

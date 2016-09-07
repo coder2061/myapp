@@ -56,7 +56,7 @@
 				alert("url不能为空");
 				return;
 			}
-			$("#testForm").attr("action", "${pageContext.request.contextPath}/.."+urlStr);
+			$("#testForm").attr("action", "${pageContext.request.contextPath}/"+urlStr);
 			$("#testForm").submit();	
         });
 		

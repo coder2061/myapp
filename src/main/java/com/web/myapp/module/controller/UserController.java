@@ -2,10 +2,10 @@ package com.web.myapp.module.controller;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.web.myapp.module.model.Area;
 import com.web.myapp.module.model.User;
+import com.web.myapp.module.service.MemberService;
 import com.web.myapp.util.GsonUtil;
 import com.web.myapp.util.StringUtils;
 
@@ -24,20 +25,16 @@ import com.web.myapp.util.StringUtils;
  * @version V1.0   
  */
 @Controller
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
-		model.addAttribute("message", "Spring 3 MVC Hello World");
-		return "index";
-
-	}
-
+	@Resource
+	private MemberService memberService;
+	
 	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
 	public ModelAndView hello(@PathVariable("name") String name) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
-		model.addObject("msg", name);
+		model.addObject("name", name);
 		return model;
 
 	}
@@ -72,6 +69,15 @@ public class UserController {
 	public Area testJAXB() {
 		Area area = new Area("China", "beijing", "chaoyang", "wangjing", "100000");
 		return area;
+	}
+	
+	@RequestMapping(value="/getMember", method = RequestMethod.GET)
+	public ModelAndView getMember(){
+		String name = this.memberService.getMemberList().get(0).getName();
+		ModelAndView model = new ModelAndView();
+		model.setViewName("index");
+		model.addObject("name", name);
+		return model;
 	}
 
 }
