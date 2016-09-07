@@ -16,7 +16,7 @@
 
 		<!-- jdbc连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver" 
-			connectionURL="jdbc:mysql://localhost:3306/myzone" userId="root" password="root" />
+			connectionURL="jdbc:mysql://localhost:3306/myapp" userId="root" password="root" />
 
 		<!-- 数据类型转换器 -->
 		<javaTypeResolver>

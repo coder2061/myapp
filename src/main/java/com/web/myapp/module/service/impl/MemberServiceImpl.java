@@ -12,7 +12,7 @@ import com.web.myapp.module.entity.MemberExample;
 import com.web.myapp.module.service.MemberService;
 
 /**   
- * Function:  
+ * Function: member接口实现 
  * @author jiangyf   
  * @since 2016年9月7日 上午10:54:40 
  * @version V1.0   

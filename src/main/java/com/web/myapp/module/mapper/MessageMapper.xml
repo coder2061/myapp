@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.web.myapp.module.dao.MessageDao" >
+  <resultMap id="BaseResultMap" type="com.web.myapp.module.entity.Message" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="SenderID" property="senderid" jdbcType="INTEGER" />
+    <result column="ReceiverID" property="receiverid" jdbcType="INTEGER" />
+    <result column="CopyerID" property="copyerid" jdbcType="VARCHAR" />
+    <result column="SecreterID" property="secreterid" jdbcType="VARCHAR" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Icon" property="icon" jdbcType="VARCHAR" />
+    <result column="Url" property="url" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="IsSend" property="issend" jdbcType="BIT" />
+    <result column="SendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="SendType" property="sendtype" jdbcType="INTEGER" />
+    <result column="IsRead" property="isread" jdbcType="BIT" />
+    <result column="ReadTime" property="readtime" jdbcType="TIMESTAMP" />
+    <result column="IsReceiverDelete" property="isreceiverdelete" jdbcType="INTEGER" />
+    <result column="ReceiverDeleteTime" property="receiverdeletetime" jdbcType="TIMESTAMP" />
+    <result column="IsSenderDelete" property="issenderdelete" jdbcType="INTEGER" />
+    <result column="SenderDeleteTime" property="senderdeletetime" jdbcType="TIMESTAMP" />
+    <result column="IsDraft" property="isdraft" jdbcType="BIT" />
+    <result column="IsTag" property="istag" jdbcType="BIT" />
+    <result column="IsReply" property="isreply" jdbcType="BIT" />
+    <result column="ReplyID" property="replyid" jdbcType="INTEGER" />
+    <result column="OrderNum" property="ordernum" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, SenderID, ReceiverID, CopyerID, SecreterID, Title, Content, Icon, Url, CreateTime, 
+    UpdateTime, IsSend, SendTime, SendType, IsRead, ReadTime, IsReceiverDelete, ReceiverDeleteTime, 
+    IsSenderDelete, SenderDeleteTime, IsDraft, IsTag, IsReply, ReplyID, OrderNum, Status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.web.myapp.module.entity.MessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart!=null and limitStart>=0" >
+      limit ${limitStart}, ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from message
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.web.myapp.module.entity.MessageExample" >
+    delete from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.web.myapp.module.entity.Message" >
+    insert into message (ID, SenderID, ReceiverID, 
+      CopyerID, SecreterID, Title, 
+      Content, Icon, Url, 
+      CreateTime, UpdateTime, IsSend, 
+      SendTime, SendType, IsRead, 
+      ReadTime, IsReceiverDelete, ReceiverDeleteTime, 
+      IsSenderDelete, SenderDeleteTime, IsDraft, 
+      IsTag, IsReply, ReplyID, OrderNum, 
+      Status)
+    values (#{id,jdbcType=BIGINT}, #{senderid,jdbcType=INTEGER}, #{receiverid,jdbcType=INTEGER}, 
+      #{copyerid,jdbcType=VARCHAR}, #{secreterid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{issend,jdbcType=BIT}, 
+      #{sendtime,jdbcType=TIMESTAMP}, #{sendtype,jdbcType=INTEGER}, #{isread,jdbcType=BIT}, 
+      #{readtime,jdbcType=TIMESTAMP}, #{isreceiverdelete,jdbcType=INTEGER}, #{receiverdeletetime,jdbcType=TIMESTAMP}, 
+      #{issenderdelete,jdbcType=INTEGER}, #{senderdeletetime,jdbcType=TIMESTAMP}, #{isdraft,jdbcType=BIT}, 
+      #{istag,jdbcType=BIT}, #{isreply,jdbcType=BIT}, #{replyid,jdbcType=INTEGER}, #{ordernum,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.web.myapp.module.entity.Message" >
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="senderid != null" >
+        SenderID,
+      </if>
+      <if test="receiverid != null" >
+        ReceiverID,
+      </if>
+      <if test="copyerid != null" >
+        CopyerID,
+      </if>
+      <if test="secreterid != null" >
+        SecreterID,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="icon != null" >
+        Icon,
+      </if>
+      <if test="url != null" >
+        Url,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="issend != null" >
+        IsSend,
+      </if>
+      <if test="sendtime != null" >
+        SendTime,
+      </if>
+      <if test="sendtype != null" >
+        SendType,
+      </if>
+      <if test="isread != null" >
+        IsRead,
+      </if>
+      <if test="readtime != null" >
+        ReadTime,
+      </if>
+      <if test="isreceiverdelete != null" >
+        IsReceiverDelete,
+      </if>
+      <if test="receiverdeletetime != null" >
+        ReceiverDeleteTime,
+      </if>
+      <if test="issenderdelete != null" >
+        IsSenderDelete,
+      </if>
+      <if test="senderdeletetime != null" >
+        SenderDeleteTime,
+      </if>
+      <if test="isdraft != null" >
+        IsDraft,
+      </if>
+      <if test="istag != null" >
+        IsTag,
+      </if>
+      <if test="isreply != null" >
+        IsReply,
+      </if>
+      <if test="replyid != null" >
+        ReplyID,
+      </if>
+      <if test="ordernum != null" >
+        OrderNum,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="senderid != null" >
+        #{senderid,jdbcType=INTEGER},
+      </if>
+      <if test="receiverid != null" >
+        #{receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="copyerid != null" >
+        #{copyerid,jdbcType=VARCHAR},
+      </if>
+      <if test="secreterid != null" >
+        #{secreterid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issend != null" >
+        #{issend,jdbcType=BIT},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendtype != null" >
+        #{sendtype,jdbcType=INTEGER},
+      </if>
+      <if test="isread != null" >
+        #{isread,jdbcType=BIT},
+      </if>
+      <if test="readtime != null" >
+        #{readtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isreceiverdelete != null" >
+        #{isreceiverdelete,jdbcType=INTEGER},
+      </if>
+      <if test="receiverdeletetime != null" >
+        #{receiverdeletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issenderdelete != null" >
+        #{issenderdelete,jdbcType=INTEGER},
+      </if>
+      <if test="senderdeletetime != null" >
+        #{senderdeletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdraft != null" >
+        #{isdraft,jdbcType=BIT},
+      </if>
+      <if test="istag != null" >
+        #{istag,jdbcType=BIT},
+      </if>
+      <if test="isreply != null" >
+        #{isreply,jdbcType=BIT},
+      </if>
+      <if test="replyid != null" >
+        #{replyid,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null" >
+        #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.web.myapp.module.entity.MessageExample" resultType="java.lang.Integer" >
+    select count(*) from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update message
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.senderid != null" >
+        SenderID = #{record.senderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiverid != null" >
+        ReceiverID = #{record.receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="record.copyerid != null" >
+        CopyerID = #{record.copyerid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secreterid != null" >
+        SecreterID = #{record.secreterid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        Title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        Content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null" >
+        Icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        Url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.issend != null" >
+        IsSend = #{record.issend,jdbcType=BIT},
+      </if>
+      <if test="record.sendtime != null" >
+        SendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendtype != null" >
+        SendType = #{record.sendtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.isread != null" >
+        IsRead = #{record.isread,jdbcType=BIT},
+      </if>
+      <if test="record.readtime != null" >
+        ReadTime = #{record.readtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isreceiverdelete != null" >
+        IsReceiverDelete = #{record.isreceiverdelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiverdeletetime != null" >
+        ReceiverDeleteTime = #{record.receiverdeletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.issenderdelete != null" >
+        IsSenderDelete = #{record.issenderdelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.senderdeletetime != null" >
+        SenderDeleteTime = #{record.senderdeletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdraft != null" >
+        IsDraft = #{record.isdraft,jdbcType=BIT},
+      </if>
+      <if test="record.istag != null" >
+        IsTag = #{record.istag,jdbcType=BIT},
+      </if>
+      <if test="record.isreply != null" >
+        IsReply = #{record.isreply,jdbcType=BIT},
+      </if>
+      <if test="record.replyid != null" >
+        ReplyID = #{record.replyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordernum != null" >
+        OrderNum = #{record.ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update message
+    set ID = #{record.id,jdbcType=BIGINT},
+      SenderID = #{record.senderid,jdbcType=INTEGER},
+      ReceiverID = #{record.receiverid,jdbcType=INTEGER},
+      CopyerID = #{record.copyerid,jdbcType=VARCHAR},
+      SecreterID = #{record.secreterid,jdbcType=VARCHAR},
+      Title = #{record.title,jdbcType=VARCHAR},
+      Content = #{record.content,jdbcType=VARCHAR},
+      Icon = #{record.icon,jdbcType=VARCHAR},
+      Url = #{record.url,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      IsSend = #{record.issend,jdbcType=BIT},
+      SendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+      SendType = #{record.sendtype,jdbcType=INTEGER},
+      IsRead = #{record.isread,jdbcType=BIT},
+      ReadTime = #{record.readtime,jdbcType=TIMESTAMP},
+      IsReceiverDelete = #{record.isreceiverdelete,jdbcType=INTEGER},
+      ReceiverDeleteTime = #{record.receiverdeletetime,jdbcType=TIMESTAMP},
+      IsSenderDelete = #{record.issenderdelete,jdbcType=INTEGER},
+      SenderDeleteTime = #{record.senderdeletetime,jdbcType=TIMESTAMP},
+      IsDraft = #{record.isdraft,jdbcType=BIT},
+      IsTag = #{record.istag,jdbcType=BIT},
+      IsReply = #{record.isreply,jdbcType=BIT},
+      ReplyID = #{record.replyid,jdbcType=INTEGER},
+      OrderNum = #{record.ordernum,jdbcType=INTEGER},
+      Status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.web.myapp.module.entity.Message" >
+    update message
+    <set >
+      <if test="senderid != null" >
+        SenderID = #{senderid,jdbcType=INTEGER},
+      </if>
+      <if test="receiverid != null" >
+        ReceiverID = #{receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="copyerid != null" >
+        CopyerID = #{copyerid,jdbcType=VARCHAR},
+      </if>
+      <if test="secreterid != null" >
+        SecreterID = #{secreterid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        Icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        Url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issend != null" >
+        IsSend = #{issend,jdbcType=BIT},
+      </if>
+      <if test="sendtime != null" >
+        SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendtype != null" >
+        SendType = #{sendtype,jdbcType=INTEGER},
+      </if>
+      <if test="isread != null" >
+        IsRead = #{isread,jdbcType=BIT},
+      </if>
+      <if test="readtime != null" >
+        ReadTime = #{readtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isreceiverdelete != null" >
+        IsReceiverDelete = #{isreceiverdelete,jdbcType=INTEGER},
+      </if>
+      <if test="receiverdeletetime != null" >
+        ReceiverDeleteTime = #{receiverdeletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issenderdelete != null" >
+        IsSenderDelete = #{issenderdelete,jdbcType=INTEGER},
+      </if>
+      <if test="senderdeletetime != null" >
+        SenderDeleteTime = #{senderdeletetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdraft != null" >
+        IsDraft = #{isdraft,jdbcType=BIT},
+      </if>
+      <if test="istag != null" >
+        IsTag = #{istag,jdbcType=BIT},
+      </if>
+      <if test="isreply != null" >
+        IsReply = #{isreply,jdbcType=BIT},
+      </if>
+      <if test="replyid != null" >
+        ReplyID = #{replyid,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null" >
+        OrderNum = #{ordernum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.web.myapp.module.entity.Message" >
+    update message
+    set SenderID = #{senderid,jdbcType=INTEGER},
+      ReceiverID = #{receiverid,jdbcType=INTEGER},
+      CopyerID = #{copyerid,jdbcType=VARCHAR},
+      SecreterID = #{secreterid,jdbcType=VARCHAR},
+      Title = #{title,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=VARCHAR},
+      Icon = #{icon,jdbcType=VARCHAR},
+      Url = #{url,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      IsSend = #{issend,jdbcType=BIT},
+      SendTime = #{sendtime,jdbcType=TIMESTAMP},
+      SendType = #{sendtype,jdbcType=INTEGER},
+      IsRead = #{isread,jdbcType=BIT},
+      ReadTime = #{readtime,jdbcType=TIMESTAMP},
+      IsReceiverDelete = #{isreceiverdelete,jdbcType=INTEGER},
+      ReceiverDeleteTime = #{receiverdeletetime,jdbcType=TIMESTAMP},
+      IsSenderDelete = #{issenderdelete,jdbcType=INTEGER},
+      SenderDeleteTime = #{senderdeletetime,jdbcType=TIMESTAMP},
+      IsDraft = #{isdraft,jdbcType=BIT},
+      IsTag = #{istag,jdbcType=BIT},
+      IsReply = #{isreply,jdbcType=BIT},
+      ReplyID = #{replyid,jdbcType=INTEGER},
+      OrderNum = #{ordernum,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

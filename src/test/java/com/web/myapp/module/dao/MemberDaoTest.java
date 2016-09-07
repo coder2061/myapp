@@ -11,7 +11,7 @@ import com.web.myapp.base.BaseJunitTest;
 import com.web.myapp.module.entity.Member;
 
 /**   
- * Function:  
+ * Function: Dao层单元测试
  * @author jiangyf   
  * @since 2016年9月7日 上午11:39:23 
  * @version V1.0   

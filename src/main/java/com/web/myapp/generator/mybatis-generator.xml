@@ -2,28 +2,42 @@
 <!DOCTYPE generatorConfiguration
   PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-
+<!-- The content of element type "context" must match "(property*,plugin*,commentGenerator?,
+ (connectionFactory|jdbcConnection),javaTypeResolver?,javaModelGenerator,sqlMapGenerator?,
+ javaClientGenerator?,table+)". -->
 <generatorConfiguration>
 	<context id="context">
 		<plugin type="com.web.myapp.generator.MybatisGenerator" />
-
-		<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+		
 		<commentGenerator>
-			<property name="suppressAllComments" value="true" />
+	        <!-- 是否去除自动生成的注释 true：是 ： false:否 -->  
+	        <property name="suppressAllComments" value="true" />  
+	        <!-- 是否生成注释的时间戳-->    
+	        <property name="suppressDate" value="false" />
+			<!-- 抑制警告 -->  
+	        <property name="suppressTypeWarnings" value="true" />  
+			<!-- 字段是否和数据库一致 -->
+			<property name="useActualColumnNames" value="true" />
+			<!-- 开启数据库字段自动映射驼峰命名规则java属性 -->
+			<property name="mapUnderscoreToCamelCase" value="false" />
 		</commentGenerator>
 
 		<!-- jdbc连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver" 
-			connectionURL="jdbc:mysql://localhost:3306/myzone" userId="root" password="root" />
+			connectionURL="jdbc:mysql://localhost:3306/myapp" userId="root" password="root" />
 
-		<!-- 数据类型转换器 -->
+		<!-- 
+			数据类型转换器  
+			默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，
+			把JDBC DECIMAL 和  NUMERIC 类型解析为java.math.BigDecimal 
+		--> 
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="true" />
 		</javaTypeResolver>
 
 		<!-- 生成的entity类 -->
 		<javaModelGenerator targetPackage="com.web.myapp.module.entity" targetProject=".\src\main\java">
-			<!-- 是否让schema作为包的后缀 -->
+			<!-- 是否让schema作为包的后缀 eg：false:com.user.model， true:com.user.model.[schemaName] -->
 			<property name="enableSubPackages" value="false" />
 			<!-- 从数据库返回的值被清理前后的空格 -->
 			<property name="trimStrings" value="true" />
@@ -31,17 +45,29 @@
 
 		<!-- 生成的mapper文件 -->
 		<sqlMapGenerator targetPackage="com.web.myapp.module.mapper" targetProject=".\src\main\java">
-			<!-- 是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
+			<property name="trimStrings" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 生成的查询接口 -->
 		<javaClientGenerator type="XMLMAPPER" targetPackage="com.web.myapp.module.dao" targetProject=".\src\main\java">
-			<!-- 是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
+			<property name="trimStrings" value="true" />
 		</javaClientGenerator>
 
-		<table schema="" tableName="member"></table>
-
+		
+		<!-- tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->    
+        <table schema="" tableName="message" domainObjectName="Message">  
+	        <!--domain字段的命名规则，false:默认为驼峰命名 true:按数据库真实命名  -->  
+	        <property name="useActualColumnNames" value="false"/>  
+	        <!-- 忽略列，不生成bean 字段 -->    
+	        <!--     
+	        <ignoreColumn column="FRED" />   
+	        -->  
+	        <!-- 指定列的java数据类型 -->    
+	        <!--     
+	        <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />   
+	        -->
+        </table> 
 	</context>
 </generatorConfiguration>
