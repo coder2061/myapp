@@ -24,8 +24,8 @@ public class PageFilter implements Filter {
     public void destroy() {}
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+    public void doFilter(ServletRequest request, ServletResponse response, 
+    		FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
         PaginationContext.setPageNum(getPageNum(httpRequest));
@@ -33,9 +33,7 @@ public class PageFilter implements Filter {
 
         try {
             chain.doFilter(request, response);
-        }
-        // 使用完Threadlocal，将其删除。使用finally确保一定将其删除
-        finally {
+        } finally { // 使用完Threadlocal，将其删除。使用finally确保一定将其删除
             PaginationContext.removePageNum();
             PaginationContext.removePageSize();
         }
@@ -51,7 +49,7 @@ public class PageFilter implements Filter {
         int pageNum = 1;
         try {
             String pageNums = request.getParameter("pageNum");
-            if (pageNums != null && StringUtils.isNumber(pageNums)) {
+            if (pageNums!=null && StringUtils.isNumber(pageNums)) {
                 pageNum = Integer.parseInt(pageNums);
             }
         } catch (NumberFormatException e) {
@@ -63,13 +61,14 @@ public class PageFilter implements Filter {
     /**
      * 设置默认每页大小
      * 
+     * @param request
      * @return
      */
     protected int getPageSize(HttpServletRequest request) {
         int pageSize = 10;    // 默认每页10条记录
         try {
             String pageSizes = request.getParameter("pageSize");
-            if (pageSizes != null && StringUtils.isNumber(pageSizes)) {
+            if (pageSizes!=null && StringUtils.isNumber(pageSizes)) {
                 pageSize = Integer.parseInt(pageSizes);
             }
         } catch (NumberFormatException e) {

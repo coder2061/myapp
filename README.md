@@ -10,7 +10,7 @@ IDE：
 	Eclipse，MyEclipse
 	
 管理工具：
-	Maven，git
+	Maven，Git
 	
 涉及技术：
 1）集成框架
@@ -25,6 +25,8 @@ IDE：
 
 2）模板引擎
 	JSP
+	FreeMarker
+	Velocity(后续)
 
 3）前端框架
 	JQuery

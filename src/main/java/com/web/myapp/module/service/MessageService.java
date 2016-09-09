@@ -1,5 +1,7 @@
 package com.web.myapp.module.service;
 
+import java.util.List;
+
 import com.web.myapp.module.entity.Message;
 
 /**   
@@ -11,5 +13,9 @@ import com.web.myapp.module.entity.Message;
 public interface MessageService {
 	
 	void createMessage(Message message);
+	
+	List<Message> getMessagelList(Integer pageNum, Integer pageSize);
+	
+	int getMessageCount(String userName);
 
 }

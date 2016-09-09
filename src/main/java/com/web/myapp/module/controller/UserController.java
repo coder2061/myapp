@@ -6,13 +6,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.web.myapp.module.model.Area;
 import com.web.myapp.module.model.User;
 import com.web.myapp.module.service.MemberService;
 import com.web.myapp.util.GsonUtil;
@@ -30,29 +27,6 @@ public class UserController {
 	@Resource
 	private MemberService memberService;
 	
-	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
-	public ModelAndView hello(@PathVariable("name") String name) {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("index");
-		model.addObject("name", name);
-		return model;
-
-	}
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView test() {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("jsp/commonTest");
-		return model;
-	}
-	
-	@RequestMapping(value = "/check", method = RequestMethod.GET)
-	public ModelAndView check() {
-		ModelAndView model = new ModelAndView();
-		model.setViewName("jsp/checkCard");
-		return model;
-	}
-	
 	@RequestMapping(value = "/getUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	public void getUserInfo(HttpServletRequest request) {
 		try {
@@ -64,13 +38,6 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value="/testJAXB", method = RequestMethod.GET)
-	@ResponseBody
-	public Area testJAXB() {
-		Area area = new Area("China", "beijing", "chaoyang", "wangjing", "100000");
-		return area;
-	}
-	
 	@RequestMapping(value="/getMember", method = RequestMethod.GET)
 	public ModelAndView getMember(){
 		String name = this.memberService.getMemberList().get(0).getName();
@@ -79,5 +46,5 @@ public class UserController {
 		model.addObject("name", name);
 		return model;
 	}
-
+	
 }

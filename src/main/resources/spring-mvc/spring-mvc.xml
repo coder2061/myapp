@@ -67,13 +67,21 @@
 	</bean>
 	
 	<!-- 定义跳转的文件的前后，视图模式配 -->
+	<!-- 自动给action方法return的字符串加上前缀和后缀变成可用的url地址 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-		<!-- 自动给action方法return的字符串加上前缀和后缀变成可用的url地址 -->
 		<property name="prefix" value="/WEB-INF/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
+	<!-- 自定义视图解析器  -->
+	<!-- 
+	<import resource="classpath:spring/spring-viewresolver.xml"/>
+	-->
+	<!-- freemarker视图解析器 -->
+	<!-- 
+	<import resource="classpath:cluster/spring-freemarker.xml"/>
+	 -->
+	 
     <!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 默认编码 -->
@@ -98,8 +106,8 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <mvc:mapping path="/user/**"/>
-            <bean class="com.crossoverJie.intercept.Intercept"></bean>
+            <mvc:mapping path="/module/**"/>
+            <bean class="com.web.myapp.intercept.BaseInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
     -->

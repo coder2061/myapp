@@ -28,7 +28,7 @@ import javax.websocket.server.ServerEndpoint;
 /*
  * 该注解用来指定一个URI，客户端可以通过这个URI来连接到WebSocket。
  * 类似Servlet的注解mapping。无需在web.xml中配置。
- * configurator = SpringConfigurator.class是为了使该类可以通过Spring注入。
+ * configurator = SpringConfigurator.class是进行Spring注入。
  */
 @ServerEndpoint(value = "/websocket",configurator = SpringConfigurator.class)
 public class MyWebSocket {
@@ -46,8 +46,6 @@ public class MyWebSocket {
 
     @Autowired
     private MessageService messageService;
-
-
 
     /**
      * 连接建立成功调用的方法
@@ -84,6 +82,7 @@ public class MyWebSocket {
             try {
                 item.sendMessage(message);
             } catch (IOException e) {
+            	log.info("收到客户端消息后出现异常：" + e.getMessage());
                 e.printStackTrace();
                 continue;
             }
@@ -97,7 +96,8 @@ public class MyWebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error){
-        System.out.println("发生错误");
+        System.out.println("发生错误信息：");
+        log.info("发生错误：" + error.getMessage());
         error.printStackTrace();
     }
 
