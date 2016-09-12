@@ -148,14 +148,6 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:spring-mvc/spring-mvc.xml</param-value>
 		</init-param>
-		<init-param>
-		    <param-name>incompatible_improvements</param-name>
-		    <param-value>2.3.25</param-value>
-		</init-param>
-		<init-param>
-		    <param-name>default_incompatible_improvements</param-name>
-		    <param-value>2.3.25</param-value>
-		</init-param>
 		<!-- 控制servlet的加载顺序 -->
 		<load-on-startup>1</load-on-startup>
 		<async-supported>true</async-supported>

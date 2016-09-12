@@ -76,10 +76,14 @@
 	
 	    //判断当前浏览器是否支持WebSocket
 	    if ('WebSocket' in window) {
-	        websocket = new WebSocket("ws://127.0.0.1:8080/myapp/websocket");
-	    } else {
+            websocket = new WebSocket("ws://localhost:8080/myapp/websocket");
+        } else if ('MozWebSocket' in window) {
+            websocket = new MozWebSocket("ws://localhost:8080/myapp/websocket");
+        } else {
+            websocket = new SockJS("http://localhost:8080/myapp/sockjs/websocket");
+        } /* else {
 	        alert("对不起！你的浏览器不支持webSocket")
-	    }
+	    } */
 	
 	    //连接发生错误的回调方法
 	    websocket.onerror = function () {

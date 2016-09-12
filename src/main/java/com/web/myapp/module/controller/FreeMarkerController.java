@@ -27,8 +27,8 @@ import com.web.myapp.util.FreeMarkerUtil;
 @Controller
 @RequestMapping("/ftl")
 public class FreeMarkerController {
-	@Autowired
-	private FreeMarkerConfig freemarkerConfig;
+//	@Autowired
+//	private FreeMarkerConfig freemarkerConfig;
 	private static Log logger = LogFactory.getLog(FreeMarkerController.class);
 	
 	@RequestMapping("/testftl")
@@ -36,7 +36,7 @@ public class FreeMarkerController {
        model.addAttribute("name","jade");
         return "testftl.ftl";
     }
-	
+	/*
 	@RequestMapping("/test")
 	public String test(HttpServletRequest request,HttpServletResponse response, ModelMap mv){
 		String filePath = "ftl";
@@ -53,7 +53,7 @@ public class FreeMarkerController {
 		//始终返回生成的HTML页面
 		return filePath+"/"+fileName;
 	}
-	
+	*/
 	@RequestMapping(value = "/test1")
     public String test1(HttpServletRequest request, ModelMap map) {
         logger.info("使用JSP视图解析器");
@@ -72,7 +72,7 @@ public class FreeMarkerController {
     public String test3(HttpServletRequest request, ModelMap map) {
         logger.info("使用Velocity视图解析器");
         map.put("name", "hello world");
-        return "/html/demo.htm";
+        return "/demo.htm";
     }
 
 }

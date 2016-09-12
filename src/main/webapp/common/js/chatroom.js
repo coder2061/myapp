@@ -5,7 +5,7 @@ $(function(){
 function refresh(){
     $.ajax({
         type:'POST',
-        url:getPath()+'/content_load',
+        url:getPath()+'/ws/loadMessage',
         success:function(data){
             if (data.result ==1){
                 var contents = data.data.contents ;
