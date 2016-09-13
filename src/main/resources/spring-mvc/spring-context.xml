@@ -32,7 +32,7 @@
 	<bean id="exceptionHandler" class="com.web.myapp.core.exception.MyExceptionHandler"/>
 	
 	<!-- 引入资源配置文件 -->
-	<context:property-placeholder location="classpath:resource.properties" />
+	<context:property-placeholder location="classpath:common.properties" />
 	
 	<!-- 自动扫描该包，注入业务接口层,逻辑业务层 -->
     <!-- <context:component-scan base-package="com.web.myapp" /> -->

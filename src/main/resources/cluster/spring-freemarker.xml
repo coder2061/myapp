@@ -46,7 +46,7 @@
                 <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
                 <prop key="number_format">\#0.\#\#</prop> 
                 <prop key="tag_syntax">auto_detect</prop>
-                <prop key="auto_import">"${myapp.root}/WEB-INF/ftl/common/index.ftl" as ui</prop>
+                <prop key="auto_import">"${webapp.root}/WEB-INF/ftl/common/index.ftl" as ui</prop>
             </props>
         </property>
          --> 

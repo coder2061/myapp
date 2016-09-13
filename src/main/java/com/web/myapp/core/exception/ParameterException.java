@@ -1,14 +1,13 @@
 package com.web.myapp.core.exception;
 
 /**
- * 自定义异常处理,描述类..throw new ParameterException("XXXX")
- * @author Lipengfei
+ * 系统业务异常机制（自定义异常处理,描述类..）
+ * throw new ParameterException("XXXX")
  */
 
 public class ParameterException extends RuntimeException {
-
-	/** serialVersionUID */
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = -5792689458341004637L;
 
 	public ParameterException() {
 		super();

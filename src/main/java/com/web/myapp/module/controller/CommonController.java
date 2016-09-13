@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.web.myapp.core.config.CommonConfig;
 import com.web.myapp.module.model.Area;
 
 /**   
@@ -46,6 +47,13 @@ public class CommonController {
 	public Area testJAXB() {
 		Area area = new Area("China", "beijing", "chaoyang", "wangjing", "100000");
 		return area;
+	}
+	
+	@RequestMapping(value="/testProp", method = RequestMethod.GET)
+	public void testProp(){
+		System.out.println(CommonConfig.getValue("worker_id"));
+		System.out.println(CommonConfig.getValue("driver", "jdbc.properties"));
+		System.out.println(CommonConfig.getValue("datacenter_id"));
 	}
 
 }

@@ -3,8 +3,6 @@ package com.web.myapp.core.factory;
 /**
  * 64位ID (42(毫秒)+5(机器ID)+5(业务编码)+12(重复累加))
  * 
- * @author LiPengfei
- * 
  * ID生成器需要传入机器ID和业务编码两个参数
  */
 public class IdFactory {
@@ -24,27 +22,24 @@ public class IdFactory {
 	// 数据中心ID左移17位
 	private final static long datacenterIdShift = sequenceBits + workerIdBits;
 	// 时间毫秒左移22位
-	private final static long timestampLeftShift = sequenceBits + workerIdBits
-			+ datacenterIdBits;
+	private final static long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
 
 	private final static long sequenceMask = -1L ^ (-1L << sequenceBits);
 
 	private static long lastTimestamp = -1L;
 
 	private long sequence = 0L;
-	//机器ID 最大长度为5
+	// 机器ID 最大长度为5
 	private final long workerId;
 	// 数据中心ID 最大长度为5
 	private final long datacenterId;
 
 	public IdFactory(long workerId, long datacenterId) {
-		if (workerId > maxWorkerId || workerId < 0) {
-			throw new IllegalArgumentException(
-					"worker Id can't be greater than %d or less than 0");
+		if (workerId>maxWorkerId || workerId<0) {
+			throw new IllegalArgumentException("workerId can't be greater than %d or less than 0");
 		}
-		if (datacenterId > maxDatacenterId || datacenterId < 0) {
-			throw new IllegalArgumentException(
-					"datacenter Id can't be greater than %d or less than 0");
+		if (datacenterId>maxDatacenterId || datacenterId<0) {
+			throw new IllegalArgumentException("datacenterId can't be greater than %d or less than 0");
 		}
 		this.workerId = workerId;
 		this.datacenterId = datacenterId;
@@ -54,14 +49,12 @@ public class IdFactory {
 		long timestamp = timeGen();
 		if (timestamp < lastTimestamp) {
 			try {
-				throw new Exception(
-						"Clock moved backwards.  Refusing to generate id for "
-								+ (lastTimestamp - timestamp) + " milliseconds");
+				throw new Exception("Clock moved backwards. Refusing to generate id for " 
+						+ (lastTimestamp - timestamp) + " milliseconds");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-
 		if (lastTimestamp == timestamp) {
 			// 当前毫秒内，则+1
 			sequence = (sequence + 1) & sequenceMask;
@@ -75,9 +68,9 @@ public class IdFactory {
 		lastTimestamp = timestamp;
 		// ID偏移组合生成最终的ID，并返回ID
 		long nextId = ((timestamp - twepoch) << timestampLeftShift)
-				| (datacenterId << datacenterIdShift)
-				| (workerId << workerIdShift) | sequence;
-
+					| (datacenterId << datacenterIdShift)
+					| (workerId << workerIdShift) 
+					| sequence;
 		return nextId;
 	}
 

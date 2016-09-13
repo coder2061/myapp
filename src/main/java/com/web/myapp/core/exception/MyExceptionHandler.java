@@ -11,12 +11,10 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Status value 
- * 1001 业务异常返回 
- * 1002 参数异常返回 
- * 1000 其他异常返回
- * 
- * @author LiPengfei
+ * 系统业务异常机制  Status value 
+ * 1001 参数异常返回 
+ * 1002 业务异常返回 
+ * 1003 其他异常返回
  */
 public class MyExceptionHandler implements HandlerExceptionResolver {
 
@@ -26,27 +24,26 @@ public class MyExceptionHandler implements HandlerExceptionResolver {
 			HttpServletResponse response, Object handler, Exception ex) {
 		response.setContentType("application/json;charset=UTF-8");
 		try {
-			if (ex instanceof BizException) {
-				response.setStatus(1001);// 业务异常返回 1001
+			if (ex instanceof ParameterException) {
+				response.setStatus(1001);// 参数异常返回 1001
 				PrintWriter writer = response.getWriter();
 				writer.write(ex.getMessage());
 				writer.flush();
-			} else if (ex instanceof ParameterException) {
-				response.setStatus(1002);// 参数异常返回 1002
+			} else if (ex instanceof BizException) {
+				response.setStatus(1002);// 业务异常返回 1002
 				PrintWriter writer = response.getWriter();
 				writer.write(ex.getMessage());
 				writer.flush();
 			} else {
-				response.setStatus(1000);// 其他异常返回 1000
+				response.setStatus(1000);// 其他异常返回 1003
 				ex.printStackTrace();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			logger.error("errorCode："+response.getStatus()+"\n errorMessage:"+ex.getMessage());
 		}
 		return null;
-
 	}
 
 }

@@ -1,15 +1,20 @@
 package com.web.myapp.module.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.web.myapp.module.entity.Member;
+import com.web.myapp.module.lucene.LuceneIndex;
 import com.web.myapp.module.model.User;
 import com.web.myapp.module.service.MemberService;
 import com.web.myapp.util.GsonUtil;
@@ -45,6 +50,18 @@ public class UserController {
 		model.setViewName("index");
 		model.addObject("name", name);
 		return model;
+	}
+	
+	@RequestMapping("/query")
+	public String search(@RequestParam(value = "key", required = false, defaultValue = "") String key,
+	                     @RequestParam(value = "page", required = false, defaultValue = "1") String page,
+	                     Model model, HttpServletRequest request) throws Exception {
+	    LuceneIndex luceneIndex = new LuceneIndex() ;
+	    List<Member> memberList = luceneIndex.query(key);
+	    model.addAttribute("key", key) ;
+	    model.addAttribute("list", memberList) ;
+	    model.addAttribute("total", memberList.size()) ;
+	    return "memberlist";
 	}
 	
 }

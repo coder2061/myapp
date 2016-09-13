@@ -1,12 +1,12 @@
 package com.web.myapp.core.exception;
 
 /**
- * 系统业务异常 throw new BizException("XXXX")
- * @author Lipengfei
+ * 系统业务异常机制
+ * throw new BizException("XXXX")
  */
 public class BizException extends RuntimeException{
-	/** serialVersionUID */
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = 497238450259322560L;
 	
 	private String code;
 	

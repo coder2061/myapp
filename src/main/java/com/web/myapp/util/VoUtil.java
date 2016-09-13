@@ -18,46 +18,40 @@ public class VoUtil {
 	private static Logger logger = Logger.getLogger(VoUtil.class);
 
 	/**
-	 * 将数据库中查询的对象转换为展示对象 （隐藏部分不需要展示的字段）
+	 * 将数据库中查询的对象转换为参数对象 （隐藏部分不需要参数的字段）
 	 * 
-	 * @param voClazz
-	 *            转换后的对象模型所属的Class
-	 * @param entityObject
-	 *            转换前的实体类对象
-	 * @return
+	 * @param voClazz 转换后的参数对象模Class
+	 * @param entityObject 转换前的实体类对象
 	 */
-	@SuppressWarnings("unchecked")
-	public static <E> E convertToVo(
-			@SuppressWarnings("rawtypes") Class voClazz, Object entityObject) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static <E> E convertToVo(Class voClazz, Object entityObject) {
 		Object vo = null;
 		try {
 			vo = voClazz.newInstance();
-			Field[] voFields = voClazz.getDeclaredFields();
 			
 			Field[] entityFields = entityObject.getClass().getDeclaredFields();
-			
-			List<Field> voFieldList = new ArrayList<Field>();
-			
 			List<String> entityFiledNames = new ArrayList<String>();
-			for(Field entityField :entityFields){
+			for(Field entityField : entityFields){
 				entityFiledNames.add(entityField.getName());
 			}
-			for(Field voField :voFields){
+			
+			Field[] voFields = voClazz.getDeclaredFields();
+			List<Field> voFieldList = new ArrayList<Field>();
+			for(Field voField : voFields){
 				if(entityFiledNames.contains(voField.getName())){
 					voFieldList.add(voField);
 				}
 			}
 			
-			
 			for (Field voField : voFieldList) {
 				// 查询到的entity对象的属性
-				Field entityField = entityObject.getClass().getDeclaredField(
-						voField.getName());
+				Field entityField = entityObject.getClass()
+						.getDeclaredField(voField.getName());
 				// 私有变量必须先设置Accessible为true
 				voField.setAccessible(true);
 				entityField.setAccessible(true);
 
-				// 判断参数对象属性值是否存在，是，则放入实体对象属性中
+				// 判断实体对象属性值是否存在，是，则放入参数对象属性中
 				if (entityField.get(entityObject) != null) {
 					voField.set(vo, entityField.get(entityObject));
 				}
@@ -88,50 +82,50 @@ public class VoUtil {
 	
 	/**
 	 * 将request中的参数封装成 vo
+	 * 
 	 * @param voClazz
 	 * @param request
-	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static <E> E convertToVo(Class voClazz,
-			HttpServletRequest request) {
-		logger.info(request.getParameterMap());
+	public static <E> E convertToVo(Class voClazz, HttpServletRequest request) {
 		Object vo = null;
 		try {
 			vo = voClazz.newInstance();
-
 			Enumeration<String> params = request.getParameterNames();
 			while (params.hasMoreElements()) {
 				String paramName = params.nextElement();
-				if("action".equals(paramName)||"pageNo".equals(paramName)
-						||"pageSize".equals(paramName)){
+				if("action".equals(paramName) || "pageNo".equals(paramName) 
+						|| "pageSize".equals(paramName)) {
 					continue;
 				}
 				Field voField = voClazz.getDeclaredField(paramName);
 				voField.setAccessible(true);
 				String type = voField.getGenericType().toString();
-				if(type.equals("class java.util.Date")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					voField.set(vo, CommonUtil.toDate(request.getParameter(paramName)));
-				} else if(type.equals("class java.math.BigDecimal")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					voField.set(vo, new BigDecimal(request.getParameter(paramName)));
-				} else if(type.equals("class java.lang.Integer")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					voField.set(vo, new Integer(request.getParameter(paramName)));
-				} else if(type.equals("class java.lang.Boolean")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					if("1".equals(request.getParameter(paramName))){
-						voField.set(vo, true);
-					} else{
-						voField.set(vo, false);
+				String paramValue = request.getParameter(paramName);
+				if (CommonUtil.isNotEmpty(paramValue)) {
+					if (type.equals("class java.util.Date")) {
+						voField.set(vo, CommonUtil.toDate(paramValue));
+					} else if (type.equals("class java.math.BigDecimal")) {
+						voField.set(vo, new BigDecimal(paramValue));
+					} else if (type.equals("class java.lang.Integer")) {
+						voField.set(vo, new Integer(paramValue));
+					} else if (type.equals("class java.lang.Boolean")) {
+						if ("1".equals(paramValue)) {
+							voField.set(vo, true);
+						} else{
+							voField.set(vo, false);
+						}
+					} else if (type.equals("class java.lang.Byte")) {
+						voField.set(vo, new Byte(paramValue));
+					} else if (type.equals("class java.lang.Long")) {
+						voField.set(vo, new Long(paramValue));
+					} else if (type.equals("class java.lang.Float")) {
+						voField.set(vo, new Float(paramValue));
+					} else if (type.equals("class java.lang.Double")) {
+						voField.set(vo, new Double(paramValue));
 					}
-				} else if(type.equals("class java.lang.Byte")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					voField.set(vo, new Byte(request.getParameter(paramName)));
-				} else if(type.equals("class java.lang.Long")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					voField.set(vo, new Long(request.getParameter(paramName)));
-				} else if(type.equals("class java.lang.Float")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					voField.set(vo, new Float(request.getParameter(paramName)));
-				} else if(type.equals("class java.lang.Double")&&CommonUtil.isNotEmpty(request.getParameter(paramName))){
-					voField.set(vo, new Double(request.getParameter(paramName)));
 				} else {
-					voField.set(vo, request.getParameter(paramName));
+					voField.set(vo, paramValue);
 				}
 			}
 		} catch (InstantiationException e) {
@@ -155,37 +149,34 @@ public class VoUtil {
 			e.printStackTrace();
 			throw new BizException(BizExpDictionary.CONVERTTOVOERROR);
 		}
-		
 		return (E) vo;
 	}
 
 	/**
-	 * @Title: injectVoToEntity
-	 * Function: 将参数对象相关属性值放入对应的实体对象属性中
-	 * @param voObj
-	 *		 参数对象（用来与用户交互的对象）
+	 * 将参数对象相关属性值放入对应的实体对象属性中
 	 * 
-	 * @param entityObj
-	 *      实体对象（用来与数据库交互的对象）
-	 * @return Object 返回类型
+	 * @param voObj 参数对象（用来与用户交互的对象）
+	 * @param entityObj 实体对象（用来与数据库交互的对象）
+	 * @return Object
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
 	@SuppressWarnings("unchecked")
 	public static <E> E injectVoToEntity(Object voObj, Object entityObj) {
-		Field[] voFields = voObj.getClass().getDeclaredFields();
 		Field[] entityFields = entityObj.getClass().getDeclaredFields();
-		List<Field> voFieldList = new ArrayList<Field>();
-
 		List<String> entityFiledNames = new ArrayList<String>();
 		for(Field entityField :entityFields){
 			entityFiledNames.add(entityField.getName());
 		}
+		
+		Field[] voFields = voObj.getClass().getDeclaredFields();
+		List<Field> voFieldList = new ArrayList<Field>();
 		for(Field voField :voFields){
 			if(entityFiledNames.contains(voField.getName())){
 				voFieldList.add(voField);
 			}
 		}
+		
 		try {
 			for (Field voField:voFieldList) {
 				// vo属性
@@ -195,8 +186,8 @@ public class VoUtil {
 				fieldValue = voField.get(voObj);
 
 				if (fieldValue != null) {
-					Field entityField = entityObj.getClass().getDeclaredField(
-							voField.getName());
+					Field entityField = entityObj.getClass()
+							.getDeclaredField(voField.getName());
 					entityField.setAccessible(true);
 					entityField.set(entityObj, fieldValue);
 				}
@@ -222,7 +213,6 @@ public class VoUtil {
 			e.printStackTrace();
 			throw new BizException(BizExpDictionary.INJECTVOTOENTITYERROR);
 		}
-
 		return (E) entityObj;
 	}
 }

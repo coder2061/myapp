@@ -182,29 +182,31 @@
 	    <version>${spring.version}</version>
 	</dependency>
 	
-	<!--lucene全文检索 -->
+	<!-- lucene全文检索  -->
+	<!-- 包含常用的文档，索引，搜索，存储等相关核心代码 -->
     <dependency>
         <groupId>org.apache.lucene</groupId>
         <artifactId>lucene-core</artifactId>
         <version>${lucene.version}</version>
     </dependency>
+    <!-- 用于模糊搜索，范围搜索等各种搜索 -->
     <dependency>
         <groupId>org.apache.lucene</groupId>
         <artifactId>lucene-queryparser</artifactId>
         <version>${lucene.version}</version>
     </dependency>
+    <!-- 包含用于对文件内容进行关键字切分，提取的各种语言的词法分析器  -->
     <dependency>
         <groupId>org.apache.lucene</groupId>
         <artifactId>lucene-analyzers-common</artifactId>
         <version>${lucene.version}</version>
     </dependency>
-    <!--lucene中文分词-->
     <dependency>
         <groupId>org.apache.lucene</groupId>
         <artifactId>lucene-analyzers-smartcn</artifactId>
         <version>${lucene.version}</version>
     </dependency>
-    <!--lucene高亮-->
+    <!-- 主要用于搜索出的内容高亮显示  -->
     <dependency>
         <groupId>org.apache.lucene</groupId>
         <artifactId>lucene-highlighter</artifactId>

@@ -17,7 +17,7 @@
 	<!-- 设置项目根路径，本项目中log4j会读取此属性来动态创建log文件目录 -->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
-		<param-value>myapp.root</param-value>
+		<param-value>webapp.root</param-value>
 	</context-param>
 	<!-- 日志记录 -->
 	<context-param>
