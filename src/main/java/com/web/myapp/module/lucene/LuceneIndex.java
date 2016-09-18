@@ -3,7 +3,7 @@ package com.web.myapp.module.lucene;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Paths;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.TokenStream;
@@ -35,7 +35,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.pagehelper.StringUtil;
+import com.web.myapp.core.config.CommonConfig;
 import com.web.myapp.module.entity.Member;
+import com.web.myapp.module.model.User;
 
 /**   
  * Function: 索引工具类 
@@ -45,7 +47,7 @@ import com.web.myapp.module.entity.Member;
  */
 public class LuceneIndex {
 	private static final Logger log = LoggerFactory.getLogger(LuceneIndex.class);
-	private static String indexPath = "D://lucene";
+	private static String indexPath = null;
 	private static Directory dir = null;
 	
 	/**
@@ -56,6 +58,7 @@ public class LuceneIndex {
 	 */
 	static {
 		try {
+			indexPath = CommonConfig.getValue("indexPath");
 			dir = FSDirectory.open(Paths.get(indexPath));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -74,6 +77,87 @@ public class LuceneIndex {
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 		IndexWriter writer = new IndexWriter(dir, iwc);
 		return writer;
+	}
+	
+	/**  
+	* 封装文档对象 
+	* @param doc
+	* @param obj
+	* @return Document 
+	* @throws Exception 
+	*/
+	public static Document setDocument(Document doc, Object obj) throws Exception {
+		java.lang.reflect.Field[] fields = obj.getClass().getDeclaredFields();
+		for (java.lang.reflect.Field field : fields) {
+			field.setAccessible(true);
+			/**
+			 * yes表示将数据存进索引，
+			 * 如果搜索结果中需要将记录显示出来就要存进去；如果搜索结果只是显示标题之类的就可以不用存，而且内容过长不建议存进去
+			 * 使用TextField类是可以用于搜索的。
+			 */
+			doc.add(new TextField(field.getName(), field.get(obj).toString(), Field.Store.YES));
+		}
+		return doc;
+	}
+	
+	/**
+	 * 添加索引
+	 * @param obj
+	 * @throws Exception
+	 */
+	public static void addIndex(Object obj) throws Exception {
+		// 文档对象实例
+		Document doc = new Document();
+		// 封装文档对象
+		doc = setDocument(doc, obj);
+		// 创建索引并添加文档对象到索引中
+		IndexWriter writer = getWriter();
+		writer.addDocument(doc);
+		writer.close();
+	}
+	
+	/**
+	 * 更新索引
+	 * @param obj
+	 * @param key 字段名
+	 * @param value 字段值
+	 * @throws Exception
+	 */
+	public static void updateIndex(Object obj, String key, String value) throws Exception {
+		Document doc = new Document();
+		doc = setDocument(doc, obj);
+		IndexWriter writer = getWriter();
+		writer.updateDocument(new Term(key, value), doc);
+		writer.close();
+	}
+	
+	/**
+	 * 删除指定的索引
+	 * @param key 字段名
+	 * @param value 字段值
+	 * @throws Exception
+	 */
+	public static void deleteIndex(String key, String value) throws Exception {
+		IndexWriter writer = getWriter();
+		writer.deleteDocuments(new Term(key, value));
+		// 强制删除
+		writer.forceMergeDeletes();
+		writer.commit();
+		writer.close();
+	}
+	
+	/**  
+	* 根据需要来对搜索关键字自定义高亮样式
+	* @param query
+	*/
+	public static Highlighter setHighlighter(Query query) {
+		QueryScorer scorer = new QueryScorer(query);
+		Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
+		SimpleHTMLFormatter formatter = new 
+				SimpleHTMLFormatter("<b><font color='red'>", "</font></b>");
+		Highlighter highlighter = new Highlighter(formatter, scorer);
+		highlighter.setTextFragmenter(fragmenter);
+		return highlighter;
 	}
 	
 	/**
@@ -128,35 +212,29 @@ public class LuceneIndex {
 		writer.close();
 	}
 	
-	/**  
-	* 根据需要来对搜索关键字自定义高亮样式
-	* @param query
-	*/
-	public Highlighter setHighlighter(Query query) {
-		QueryScorer scorer = new QueryScorer(query);
-		Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
-		SimpleHTMLFormatter formatter = new 
-				SimpleHTMLFormatter("<b><font color='red'>", "</font></b>");
-		Highlighter highlighter = new Highlighter(formatter, scorer);
-		highlighter.setTextFragmenter(fragmenter);
-		return highlighter;
-	}
-	
 	/**
 	 * 搜索方法
 	 * @param queryKey 搜索关键字
 	 * @throws Exception
 	 */
-	public List<Member> query(String queryKey) throws Exception {
+	public static List<User> query(String queryKey, String[] keys) throws Exception {
 		SmartChineseAnalyzer analyzer = new SmartChineseAnalyzer();
 		// 封装搜索信息为Lucene能够识别的Query对象(TermQuery, BooleanQuery, PrefixQuery)
-		QueryParser parser = new QueryParser("name",analyzer);
+		/*for (String key : keys) {
+			QueryParser parser = new QueryParser(key,analyzer);
+			Query query = parser.parse(queryKey);
+			booleanQuery.add(query, BooleanClause.Occur.SHOULD);
+		}*/
+		QueryParser parser = new QueryParser("id",analyzer);
 		Query query = parser.parse(queryKey);
-		QueryParser parser2 = new QueryParser("nickname",analyzer);
+		QueryParser parser2 = new QueryParser("name",analyzer);
 		Query query2 = parser2.parse(queryKey);
+		QueryParser parser3 = new QueryParser("pswd",analyzer);
+		Query query3 = parser3.parse(queryKey);
 		BooleanQuery.Builder booleanQuery = new BooleanQuery.Builder();
 		booleanQuery.add(query, BooleanClause.Occur.SHOULD);
 		booleanQuery.add(query2, BooleanClause.Occur.SHOULD);
+		booleanQuery.add(query3, BooleanClause.Occur.SHOULD);
 		
 		// 根据索引位置读取索引
 		IndexReader reader = DirectoryReader.open(dir);
@@ -168,40 +246,46 @@ public class LuceneIndex {
 		Highlighter highlighter = setHighlighter(query);
 		
 		// 转化搜索结果
-		List<Member> memberList = new LinkedList<Member>();
+		List<User> userList = new ArrayList<User>();
 		for (ScoreDoc scoreDoc : hits.scoreDocs) {
 			Document doc = searcher.doc(scoreDoc.doc);
-			Member member = new Member();
+			User user = new User();
+			String id = doc.get("id");
 			String name = doc.get("name");
-			String nickname = doc.get("nickname");
-			member.setId(Integer.parseInt(doc.get(("id"))));
-			member.setName(name);
-			member.setNickname(nickname);
+			String pswd = doc.get("pswd");
+			user.setName(id);
+			user.setName(name);
+			user.setPswd(pswd);
+			if (id != null) {
+				TokenStream tokenStream = analyzer.tokenStream("id", new StringReader(id));
+				String hid = highlighter.getBestFragment(tokenStream, id);
+				if (StringUtil.isEmpty(hid)) {
+					user.setId(id);
+				} else {
+					user.setId(hid);
+				}
+			}
 			if (name != null) {
 				TokenStream tokenStream = analyzer.tokenStream("name", new StringReader(name));
 				String hname = highlighter.getBestFragment(tokenStream, name);
 				if (StringUtil.isEmpty(hname)) {
-					member.setName(name);
+					user.setName(name);
 				} else {
-					member.setName(hname);
+					user.setName(hname);
 				}
 			}
-			if (nickname != null) {
-				TokenStream tokenStream = analyzer.tokenStream("nickname", new StringReader(nickname));
-				String hnickname = highlighter.getBestFragment(tokenStream, nickname);
-				if (StringUtil.isEmpty(hnickname)) {
-					if (nickname.length() <= 200) {
-						member.setNickname(nickname);
-					} else {
-						member.setNickname(nickname.substring(0, 200));
-					}
+			if (pswd != null) {
+				TokenStream tokenStream = analyzer.tokenStream("pswd", new StringReader(pswd));
+				String hpswd = highlighter.getBestFragment(tokenStream, pswd);
+				if (StringUtil.isEmpty(hpswd)) {
+					user.setPswd(pswd);
 				} else {
-					member.setNickname(hnickname);
+					user.setPswd(hpswd);
 				}
 			}
-			memberList.add(member);
+			userList.add(user);
 		}
-		return memberList;
+		return userList;
 	}
 
 }

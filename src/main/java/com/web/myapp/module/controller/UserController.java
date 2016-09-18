@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.web.myapp.module.entity.Member;
 import com.web.myapp.module.lucene.LuceneIndex;
 import com.web.myapp.module.model.User;
 import com.web.myapp.module.service.MemberService;
@@ -53,15 +52,13 @@ public class UserController {
 	}
 	
 	@RequestMapping("/query")
-	public String search(@RequestParam(value = "key", required = false, defaultValue = "") String key,
-	                     @RequestParam(value = "page", required = false, defaultValue = "1") String page,
+	@SuppressWarnings("static-access")
+	public void search(@RequestParam(value = "key", required = false, defaultValue = "") String key,
 	                     Model model, HttpServletRequest request) throws Exception {
 	    LuceneIndex luceneIndex = new LuceneIndex() ;
-	    List<Member> memberList = luceneIndex.query(key);
-	    model.addAttribute("key", key) ;
-	    model.addAttribute("list", memberList) ;
-	    model.addAttribute("total", memberList.size()) ;
-	    return "memberlist";
+	    String[] keys = {"id", "name", "pswd"};
+	    List<User> userList = luceneIndex.query(key, keys);
+	    System.out.println(GsonUtil.bean2Json(userList));
 	}
 	
 }

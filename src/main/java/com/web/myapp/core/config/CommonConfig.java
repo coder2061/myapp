@@ -12,14 +12,15 @@ import com.web.myapp.core.exception.BizExpDictionary;
 import com.web.myapp.core.exception.BizException;
 
 public class CommonConfig {
-	private static Properties properties = new Properties();
+	private static Properties properties = null;
 	private static Logger logger = Logger.getLogger(CommonConfig.class);
 	
 	/**
 	 * 初始化操作
 	 */
-    static{
-		loadProperties("common.properties");
+    static {
+    	properties = new Properties();
+    	loadProperties("common.properties");
 	}
     
     /**  
@@ -36,7 +37,7 @@ public class CommonConfig {
 			logger.error(BizExpDictionary.COMMONSETTINGERROR + "\n" + e.getStackTrace());
 			e.printStackTrace();
 			throw new BizException(BizExpDictionary.COMMONSETTINGERROR);
-		}catch (IOException e) {
+		} catch (IOException e) {
             logger.error(BizExpDictionary.COMMONSETTINGERROR + "\n" + e.getStackTrace());
             e.printStackTrace();
             throw new BizException(BizExpDictionary.COMMONSETTINGERROR);
@@ -49,7 +50,7 @@ public class CommonConfig {
      * @param key 文字信息对应的key
      * @return String properties中的配置信息
      */
-    public static String getValue(String key){
+    public static String getValue(String key) {
     	return properties.getProperty(key);
     }
     
@@ -60,7 +61,7 @@ public class CommonConfig {
      * @param propertiesName 配置文件全名
      * @return String properties中的配置信息
      */
-    public static String getValue(String key, String propertiesName){
+    public static String getValue(String key, String propertiesName) {
     	loadProperties(propertiesName);
     	return properties.getProperty(key);
     }
