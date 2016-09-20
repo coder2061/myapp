@@ -42,6 +42,8 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
 
+import com.web.myapp.constants.WeixinConstants;
+
 
 public class HTTPUtils {
 	private static  Logger log =  Logger.getLogger(HTTPUtils.class);
@@ -92,10 +94,10 @@ public class HTTPUtils {
 		/**
 		 * 第一部分
 		 */
-		String url = KeyInfo.HTTP_POST_MEDIA_ADD.replace("ACCESS_TOKEN",
+		String url = WeixinConstants.HTTP_POST_MEDIA_ADD.replace("ACCESS_TOKEN",
 				accessToken).replace("TYPE", fileType);
 		if ("0".equals(uploadType)) {
-			url = KeyInfo.HTTP_POST_MEDIA_UPDATE.replace("ACCESS_TOKEN",
+			url = WeixinConstants.HTTP_POST_MEDIA_UPDATE.replace("ACCESS_TOKEN",
 					accessToken).replace("TYPE", fileType);
 		}
 		String result = httpPost(file, url);
@@ -713,17 +715,15 @@ public class HTTPUtils {
 		return info;
 	}
 	
-    /** 
-    * Function: 发送HttpPost请求 
+	/** 
+    * 发送HttpPost请求 
     * @param strURL 服务地址 
-    * @param params json字符串,例如: "{ \"id\":\"12345\" }" ;其中属性名必须带双引号
+    * @param params 请求参数,格式如: "{\"id\":\"12345\"}";其中属性名必须带双引号
     * @return String json字符串
-    * @author jiangyf 
-    * @since 2016年8月16日 下午7:34:53
     */
     public static String sendPostWithJson(String strURL, String params) {  
         try {  
-            URL url = new URL(strURL);// 创建连接  
+            URL url = new URL(strURL); // 创建连接  
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();  
             connection.setDoOutput(true);  
             connection.setDoInput(true);  
@@ -738,7 +738,7 @@ public class HTTPUtils {
             out.flush();  
             out.close();  
             // 读取响应  
-            int length = (int) connection.getContentLength();// 获取长度  
+            int length = (int) connection.getContentLength(); // 获取长度  
             InputStream is = connection.getInputStream();  
             if (length != -1) {  
                 byte[] data = new byte[length];  

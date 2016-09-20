@@ -6,8 +6,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
@@ -31,16 +33,20 @@ import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.search.highlight.SimpleSpanFragmenter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.store.RAMDirectory;
+import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.pagehelper.StringUtil;
 import com.web.myapp.core.config.CommonConfig;
-import com.web.myapp.module.entity.Member;
 import com.web.myapp.module.model.User;
 
 /**   
  * Function: 索引工具类 
+ * 	Lucene的使用主要体现在两个步骤：
+ * 		1 创建索引，通过IndexWriter对不同的文件进行索引的创建，并将其保存在索引相关文件存储的位置中。
+ * 		2 通过索引查寻关键字相关文档。
  * @author jiangyf   
  * @since 2016年9月12日 下午6:29:56 
  * @version V1.0   
@@ -146,6 +152,39 @@ public class LuceneIndex {
 		writer.close();
 	}
 	
+	public static void test() throws Exception {
+		// 标准词法分析器
+		Analyzer analyzer = new StandardAnalyzer();
+	    // 保存索引至内存
+	    Directory directory = new RAMDirectory();
+	    IndexWriterConfig config = new IndexWriterConfig(analyzer);
+	    IndexWriter writer = new IndexWriter(directory, config);
+	    Document doc = new Document();
+	    String text = "This is the text to be indexed.";
+	    doc.add(new Field("fieldname", text, TextField.TYPE_STORED));
+	    writer.addDocument(doc);
+	    writer.close();
+	    
+	    // 读取索引
+	    DirectoryReader reader = DirectoryReader.open(directory);
+	    // 创建搜索器
+	    IndexSearcher searcher = new IndexSearcher(reader);
+	    // 调用查询方法
+	    QueryParser parser = new QueryParser("fieldname", analyzer);
+	    Query query = parser.parse("text");
+	    ScoreDoc[] hits = searcher.search(query, 1000, null).scoreDocs;
+	    Assert.assertEquals(1, hits.length);
+	    // 遍历查询结果
+	    for (int i = 0; i < hits.length; i++) {
+	      Document hitDoc = searcher.doc(hits[i].doc);
+	      Assert.assertEquals("This is the text to be indexed.", hitDoc.get("fieldname"));
+	    }
+	    // 关闭查询器
+	    reader.close();
+	    directory.close();
+	}
+	
+	
 	/**  
 	* 根据需要来对搜索关键字自定义高亮样式
 	* @param query
@@ -165,18 +204,13 @@ public class LuceneIndex {
 	 * @param member
 	 * @throws Exception
 	 */
-	public void addIndex(Member member) throws Exception {
+	public static void addIndex(User User) throws Exception {
 		// 文档对象实例
 		Document doc = new Document();
-		/**
-		 * yes表示将数据存进索引，
-		 * 如果搜索结果中需要将记录显示出来就要存进去；如果搜索结果只是显示标题之类的就可以不用存，而且内容过长不建议存进去
-		 * 使用TextField类是可以用于搜索的。
-		 */
 		// 封装文档对象
-		doc.add(new StringField("id", String.valueOf(member.getId()), Field.Store.YES));
-		doc.add(new TextField("name", member.getName(), Field.Store.YES));
-		doc.add(new TextField("nickname", member.getNickname(), Field.Store.YES));
+		doc.add(new StringField("id", User.getId(), Field.Store.YES));
+		doc.add(new TextField("name", User.getName(), Field.Store.YES));
+		doc.add(new TextField("pswd", User.getPswd(), Field.Store.YES));
 		// 创建索引并添加文档对象到索引中
 		IndexWriter writer = getWriter();
 		writer.addDocument(doc);
@@ -185,16 +219,16 @@ public class LuceneIndex {
 
 	/**
 	 * 更新索引
-	 * @param Member
+	 * @param User
 	 * @throws Exception
 	 */
-	public void updateIndex(Member member) throws Exception {
+	public static void updateIndex(User User) throws Exception {
 		Document doc = new Document();
-		doc.add(new StringField("id", String.valueOf(member.getId()), Field.Store.YES));
-		doc.add(new TextField("name", member.getName(), Field.Store.YES));
-		doc.add(new TextField("nickname", member.getNickname(), Field.Store.YES));
+		doc.add(new StringField("id", User.getId(), Field.Store.YES));
+		doc.add(new TextField("name", User.getName(), Field.Store.YES));
+		doc.add(new TextField("pswd", User.getPswd(), Field.Store.YES));
 		IndexWriter writer = getWriter();
-		writer.updateDocument(new Term("id", String.valueOf(member.getId())), doc);
+		writer.updateDocument(new Term("id", String.valueOf(User.getId())), doc);
 		writer.close();
 	}
 
@@ -203,7 +237,7 @@ public class LuceneIndex {
 	 * @param id
 	 * @throws Exception
 	 */
-	public void deleteIndex(String id) throws Exception {
+	public static void deleteIndex(String id) throws Exception {
 		IndexWriter writer = getWriter();
 		writer.deleteDocuments(new Term("id", id));
 		// 强制删除
