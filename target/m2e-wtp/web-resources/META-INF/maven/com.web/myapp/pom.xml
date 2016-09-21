@@ -32,6 +32,10 @@
     <jdk.version>1.8</jdk.version>
     <!-- lucene -->
     <lucene.version>6.2.0</lucene.version>
+    <!-- shiro -->
+    <shiro.version>1.2.5</shiro.version>
+    <!-- cxf -->
+    <cxf.version>3.1.6</cxf.version>
     <!-- servlet api -->
 	<servlet.version>2.5</servlet.version>
     <jsp.version>2.0</jsp.version>
@@ -212,6 +216,40 @@
         <artifactId>lucene-highlighter</artifactId>
         <version>${lucene.version}</version>
 	</dependency>
+	
+	<!--shiro-->
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-core</artifactId>
+        <version>${shiro.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-web</artifactId>
+        <version>${shiro.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-spring</artifactId>
+        <version>${shiro.version}</version>
+    </dependency>
+
+    <!--cxf-->
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-core</artifactId>
+        <version>${cxf.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http</artifactId>
+        <version>${cxf.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        <version>${cxf.version}</version>
+    </dependency>
 	
 	<!-- camel -->
 	<dependency>

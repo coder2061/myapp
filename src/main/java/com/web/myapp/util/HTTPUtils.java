@@ -46,42 +46,15 @@ import com.web.myapp.constants.WeixinConstants;
 
 
 public class HTTPUtils {
-	private static  Logger log =  Logger.getLogger(HTTPUtils.class);
-	public final static String TYPE_XML = "text/xml";
-	public final static String TYPE_JSON = "application/json";
-
-	public static void main(String[] args) throws Exception {
-		/*
-		 * String token =
-		 * "IdVOJETGkUaP24kFTdpYnEog4cr3o4-oQCZX148EA6xI75Mc1v1MzEnm91SDhAr-1ijd-gYH4XgokNKp5fJOsIS5SQdPTH5vdTWJ1DPuMxM"
-		 * ; HTTPUtils utils = new HTTPUtils(); String filePath =
-		 * "C:/Users/Administrator/Desktop/在讯二维码.jpg"; String result =
-		 * utils.send("0","image", filePath, token); System.out.println(result);
-		 */
-		/*
-		 * String rtn =sendPost("http://58.249.48.146:11047/http/sendMsg",
-		 * "proxycode=075500730964&account=hybfcwx&pwd=12345678&mobiles=13622845522&content=测试海雅短信接口&seqno=12334&extno="
-		 * ); System.out.println(rtn);
-		 */
-		// System.out.println(new
-		// HTTPUtils().send("1","video","C:/Users/Administrator/Desktop/1007_d31059e9c9954dd3a1d46bc7d200586c.f10.mp4","g-WUmS6hqcXArWlSN4-yRyZUF_ODfd9QWNu1blz5U3FfZKtJigdL9nLDPlyyKk25A6tnO77eChp_jPx7uTVBaaYEyoS9XS1b_4HVg4DGbCwIKNhAGANPS"));
-		/*
-		 * String path =
-		 * "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=KKIA25r0wmhrAANKisO-lK5Ro1sLCp3LN-MsajXNu-CFBHWvvIUBhl9NXDB61RqP6_9xxusaMbbbQs6RSm7XHSzDXgcBMxxhDj2BkUBUUxMSTJjAGACDT"
-		 * ; String filePath = "C:/Users/Administrator/Desktop/普卡.png";
-		 * System.out.println(httpPostFile(path,filePath));
-		 */
-		String value = "/f/b/d/d/afdsafsk.jpg";
-		System.out.println(value.replace("/f/b/d/d", ""));
-	}
+	private static Logger log = Logger.getLogger(HTTPUtils.class);
+	public static final String TYPE_XML = "text/xml";
+	public static final String TYPE_JSON = "application/json";
 
 	/**
 	 * 文件上传到微信服务器
 	 * 
-	 * @param fileType
-	 *            文件类型
-	 * @param filePath
-	 *            文件路径
+	 * @param fileType 文件类型
+	 * @param filePath 文件路径
 	 * @return JSONObject
 	 * @throws Exception
 	 */
@@ -202,14 +175,14 @@ public class HTTPUtils {
 					.getInputStream()));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				// System.out.println(line);
+				// log.info(line);
 				buffer.append(line);
 			}
 			if (result == null) {
 				result = buffer.toString();
 			}
 		} catch (IOException e) {
-			System.out.println("发送POST请求出现异常！" + e);
+			log.info("发送POST请求出现异常！" + e);
 			e.printStackTrace();
 			throw new IOException("数据读取异常");
 		} finally {
@@ -220,6 +193,11 @@ public class HTTPUtils {
 		return result;
 	}
 
+	/**  
+	* 获取IP地址 
+	* @param request
+	* @return String 
+	*/
 	public static String getIpAddr(HttpServletRequest request) {
 		String ip = request.getHeader("x-forwarded-for");
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -236,8 +214,6 @@ public class HTTPUtils {
 		} else if (ip.contains(":") && !ip.contains(",")) {
 			ip = ip.substring(0, ip.indexOf(":")).trim();
 		}
-		System.out.println("==========================ip:" + ip
-				+ "=================================");
 		return ip;
 	}
 
@@ -268,7 +244,7 @@ public class HTTPUtils {
 			/*
 			 * // 获取所有响应头字段 Map<String, List<String>> map =
 			 * connection.getHeaderFields(); // 遍历所有的响应头字段 for (String key :
-			 * map.keySet()) { System.out.println(key + "--->" + map.get(key));
+			 * map.keySet()) { log.info(key + "--->" + map.get(key));
 			 * }
 			 */
 			// 定义 BufferedReader输入流来读取URL的响应
@@ -280,7 +256,7 @@ public class HTTPUtils {
 			}
 			result = new String(result.getBytes(), "utf-8");
 		} catch (Exception e) {
-			System.out.println("发送GET请求出现异常！" + e);
+			log.info("发送GET请求出现异常！" + e);
 			e.printStackTrace();
 		}
 		// 使用finally块来关闭输入流
@@ -330,7 +306,7 @@ public class HTTPUtils {
 			Map<String, List<String>> map = connection.getHeaderFields();
 			// 遍历所有的响应头字段
 			for (String key : map.keySet()) {
-				System.out.println(key + "-->" + map.get(key));
+				log.info(key + "-->" + map.get(key));
 			}
 
 			String contentType = map.get("Content-Type").get(0);
@@ -366,7 +342,7 @@ public class HTTPUtils {
 				outputStream.write(buffer, 0, length);
 			}
 		} catch (Exception e) {
-			System.out.println("发送GET请求出现异常！" + e);
+			log.info("发送GET请求出现异常！" + e);
 			e.printStackTrace();
 		}
 		// 使用finally块来关闭输入流
@@ -428,7 +404,7 @@ public class HTTPUtils {
 				result += s;
 			}
 		} catch (Exception e) {
-			System.out.println("发送 POST 请求出现异常！" + e);
+			log.info("发送 POST 请求出现异常！" + e);
 			e.printStackTrace();
 		}
 		// 使用finally块来关闭输出流、输入流
@@ -456,7 +432,6 @@ public class HTTPUtils {
 	 *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
 	 * @return 所代表远程资源的响应结果
 	 */
-	@SuppressWarnings("unchecked")
 	public static String sendPostWithHeader(String url, String param, Map header) {// youngmix
 		PrintWriter out = null;
 		BufferedReader in = null;
@@ -501,7 +476,7 @@ public class HTTPUtils {
 				result += s;
 			}
 		} catch (Exception e) {
-			System.out.println("发送 POST 请求出现异常！" + e);
+			log.info("发送 POST 请求出现异常！" + e);
 			e.printStackTrace();
 		}
 		// 使用finally块来关闭输出流、输入流
@@ -529,7 +504,6 @@ public class HTTPUtils {
 	 *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
 	 * @return URL 所代表远程资源的响应结果
 	 */
-	@SuppressWarnings("unchecked")
 	public static String sendGetWithHeader(String url, Map header) {
 		String result = "";
 		BufferedReader in = null;
@@ -554,7 +528,7 @@ public class HTTPUtils {
 			/*
 			 * // 获取所有响应头字段 Map<String, List<String>> map =
 			 * connection.getHeaderFields(); // 遍历所有的响应头字段 for (String key :
-			 * map.keySet()) { System.out.println(key + "--->" + map.get(key));
+			 * map.keySet()) { log.info(key + "--->" + map.get(key));
 			 * }
 			 */
 			// 定义 BufferedReader输入流来读取URL的响应
@@ -568,9 +542,9 @@ public class HTTPUtils {
 				result += s;
 			}
 			// result = new
-			// String(result.getBytes(),"utf-8");System.out.println(result);
+			// String(result.getBytes(),"utf-8");log.info(result);
 		} catch (Exception e) {
-			System.out.println("发送GET请求出现异常！" + e);
+			log.info("发送GET请求出现异常！" + e);
 			e.printStackTrace();
 		}
 		// 使用finally块来关闭输入流

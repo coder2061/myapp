@@ -6,6 +6,13 @@ package com.web.myapp.constants;
  * @version V1.0   
  */
 public class WeixinConstants {
+	
+	/***************************** weixin constants *****************************/
+	
+	public static final String APP_ID = "wx1c1d0d9792eb7335";
+	
+	public static final String APP_SRCRET = "0afbebf42d9ba9e8d46ba75ba337a091";
+	
 
 	/***************************** weixin api interface url *****************************/
     
@@ -170,12 +177,80 @@ public class WeixinConstants {
     public static final String HTTPS_POST_CARD_CONSUME = "https://api.weixin.qq.com/card/code/consume?access_token=TOKEN";
     
     /***************************** 用户分析数据接口 *****************************/
-    // 用户分析数据接口查询有效时间起点
+    // 微信接口查询有效时间起点
     public static final String BEGIN_DATE = "2014-12-01";
-    // 用户分析数据接口获取数据的最大时间跨度
-    public static final int MAXIMUM_TIME = 7;
+    
+    // 用户分析数据接口获取数据的最大时间跨度(Maximum Time Interval - MTI)
+    public static final int MTI_GETUSER = 7;
     // 获取用户增减数据
-    public static final String HTTPS_POST_GETUSERSUMMARY = "https://api.weixin.qq.com/datacube/getusersummary?access_token=ACCESS_TOKEN";
+    public static String HTTPS_POST_GETUSERSUMMARY = "https://api.weixin.qq.com/datacube/getusersummary?access_token=ACCESS_TOKEN";
     // 获取累计用户数据
-    public static final String HTTPS_POST_GETUSERCUMULATE = "https://api.weixin.qq.com/datacube/getusercumulate?access_token=ACCESS_TOKEN";
+    public static String HTTPS_POST_GETUSERCUMULATE = "https://api.weixin.qq.com/datacube/getusercumulate?access_token=ACCESS_TOKEN";
+    
+    /***************************** 图文分析数据接口 *****************************/
+    // 获取图文群发每日数据 获取数据的最大时间跨度
+    public static int MTI__GETARTICLESUMMARY = 1;
+    // 获取图文群发总数据 获取数据的最大时间跨度
+    public static int MTI__GETARTICLETOTAL = 1;
+    // 获取图文统计数据 获取数据的最大时间跨度
+    public static int MTI__GETUSERREAD = 3;
+    // 获取图文统计分时数据 获取数据的最大时间跨度
+    public static int MTI__GETUSERREADHOUR = 1;
+    // 获取图文分享转发数据 获取数据的最大时间跨度
+    public static int MTI__GETUSERSHARE = 7;
+    // 获取图文分享转发分时数据 获取数据的最大时间跨度
+    public static int MTI__GETUSERSHAREHOUR = 1;
+    // 获取图文群发每日数据
+    public static String HTTPS_POST_GETARTICLESUMMARY = "https://api.weixin.qq.com/datacube/getarticlesummary?access_token=ACCESS_TOKEN";
+    // 获取图文群发总数据
+    public static String HTTPS_POST_GETARTICLETOTAL = "https://api.weixin.qq.com/datacube/getarticletotal?access_token=ACCESS_TOKEN";
+    // 获取图文统计数据
+    public static String HTTPS_POST_GETUSERREAD = "https://api.weixin.qq.com/datacube/getuserread?access_token=ACCESS_TOKEN";
+    // 获取图文统计分时数据
+    public static String HTTPS_POST_GETUSERREADHOUR = "https://api.weixin.qq.com/datacube/getuserreadhour?access_token=ACCESS_TOKEN";
+    // 获取图文分享转发数据
+    public static String HTTPS_POST_GETUSERSHARE = "https://api.weixin.qq.com/datacube/getusershare?access_token=ACCESS_TOKEN";
+    // 获取图文分享转发分时数据
+    public static String HTTPS_POST_GETUSERSHAREHOUR = "https://api.weixin.qq.com/datacube/getusersharehour?access_token=ACCESS_TOKEN";
+    
+    /***************************** 消息分析数据接口 *****************************/
+    // 获取消息发送概况数据 获取数据的最大时间跨度
+    public static int MTI__GETUPSTREAMMSG = 7;
+    // 获取消息分送分时数据 获取数据的最大时间跨度
+    public static int MTI__GETUPSTREAMMSGHOUR = 1;
+    // 获取消息发送周数据 获取数据的最大时间跨度
+    public static int MTI__GETUPSTREAMMSGWEEK = 30;
+    // 获取消息发送月数据 获取数据的最大时间跨度
+    public static int MTI__GETUPSTREAMMSGMONTH = 30;
+    // 获取消息发送分布数据 获取数据的最大时间跨度
+    public static int MTI__GETUPSTREAMMSGDIST = 15;
+    // 获取消息发送分布周数据 获取数据的最大时间跨度
+    public static int MTI__GETUPSTREAMMSGDISTWEEK = 30;
+    // 获取消息发送分布月数据 获取数据的最大时间跨度
+    public static int MTI__GETUPSTREAMMSGDISTMONTH = 30;
+    // 获取消息发送概况数据
+    public static String HTTPS_POST_GETUPSTREAMMSG = "https://api.weixin.qq.com/datacube/getupstreammsg?access_token=ACCESS_TOKEN";
+    // 获取消息分送分时数据
+    public static String HTTPS_POST_GETUPSTREAMMSGHOUR = "https://api.weixin.qq.com/datacube/getupstreammsghour?access_token=ACCESS_TOKEN";
+    // 获取消息发送周数据
+    public static String HTTPS_POST_GETUPSTREAMMSGWEEK = "https://api.weixin.qq.com/datacube/getupstreammsgweek?access_token=ACCESS_TOKEN";
+    // 获取消息发送月数据
+    public static String HTTPS_POST_GETUPSTREAMMSGMONTH = "https://api.weixin.qq.com/datacube/getupstreammsgmonth?access_token=ACCESS_TOKEN";
+    // 获取消息发送分布数据
+    public static String HTTPS_POST_GETUPSTREAMMSGDIST = "https://api.weixin.qq.com/datacube/getupstreammsgdist?access_token=ACCESS_TOKEN";
+    // 获取消息发送分布周数据
+    public static String HTTPS_POST_GETUPSTREAMMSGDISTWEEK = "https://api.weixin.qq.com/datacube/getupstreammsgdistweek?access_token=ACCESS_TOKEN";
+    // 获取消息发送分布月数据
+    public static String HTTPS_POST_GETUPSTREAMMSGDISTMONTH = "https://api.weixin.qq.com/datacube/getupstreammsgdistmonth?access_token=ACCESS_TOKEN";
+    
+    /***************************** 接口分析数据接口 *****************************/
+    // 获取接口分析数据接口 获取数据的最大时间跨度
+    public static int MTI_GETINTERFACESUMMARY = 30;
+    // 获取接口分析分时数据接口 获取数据的最大时间跨度
+    public static int MTI_GETINTERFACESUMMARYHOUR = 1;
+    // 获取接口分析数据
+    public static String HTTPS_POST_GETINTERFACESUMMARY = "https://api.weixin.qq.com/datacube/getinterfacesummary?access_token=ACCESS_TOKEN";
+    // 获取接口分析分时数据
+    public static String HTTPS_POST_GETINTERFACESUMMARYHOUR = "https://api.weixin.qq.com/datacube/getinterfacesummaryhour?access_token=ACCESS_TOKEN";
+
 }
