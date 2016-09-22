@@ -29,16 +29,17 @@
 		<param-name>log4jRefreshInterval</param-name>
 		<param-value>0</param-value>
 	</context-param>
-	<!-- 加载Spring XML配置文件 -->
+	<!-- 加载Spring-*XML配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 	        classpath:spring-mybatis/spring-mybatis.xml,
-			classpath:spring-mvc/spring-context.xml
+			classpath:spring-mvc/spring-context.xml,
+			classpath:cluster/spring-shiro.xml,
+			classpath:cluster/spring-cxf.xml
 	        <!-- 
+	        classpath:cluster/spring-quartz.xml
 	        classpath:spring/spring-context.xml,
-			classpath:spring-mvc/spring-shiro.xml,
-	        classpath:spring-mvc/spring-quartz.xml
 	         -->
         </param-value>
 	</context-param>
@@ -73,12 +74,11 @@
     </filter-mapping>
      -->
 	<!-- shiro权限配置过滤器 -->
-	<!-- 
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 		<init-param>
-            该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理
+            <!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 -->
             <param-name>targetFilterLifecycle</param-name>
             <param-value>true</param-value>
 		</init-param>
@@ -87,7 +87,6 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	 -->
 	<!-- druid 监控 -->
 	<!-- 
     <filter>
@@ -102,23 +101,8 @@
         <filter-name>DruidWebStatFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <servlet>
-        <servlet-name>DruidStatView</servlet-name>
-        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
-        <init-param>
-            <param-name>loginUsername</param-name>
-            <param-value>druid</param-value>
-        </init-param>
-        <init-param>
-            <param-name>loginPassword</param-name>
-            <param-value>druid</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DruidStatView</servlet-name>
-        <url-pattern>/druid/*</url-pattern>
-    </servlet-mapping>
 	 -->
+	 
 	<!--Spring监听器的配置，用于在启动Web容器时，自动装配ApplicationContext的配置信息 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -190,8 +174,36 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.png</url-pattern>
     </servlet-mapping>
+    <!-- cxf webservice servlet -->
+	<servlet>
+	    <servlet-name>CXFServlet</servlet-name>
+	    <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>CXFServlet</servlet-name>
+	    <url-pattern>/webservice/*</url-pattern>
+	</servlet-mapping>
+	<!-- druid servlet -->
+	<!-- 
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+        <init-param>
+            <param-name>loginUsername</param-name>
+            <param-value>druid</param-value>
+        </init-param>
+        <init-param>
+            <param-name>loginPassword</param-name>
+            <param-value>druid</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
+     -->
     
-     <!-- 设置 session 超时时间，单位：分钟  -->
+    <!-- 设置 session 超时时间，单位：分钟  -->
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>

@@ -1,6 +1,8 @@
 package com.web.myapp.module.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -30,6 +32,24 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<Member> getMemberList() {
 		return this.memberDao.selectByExample(new MemberExample());
+	}
+
+	@Override
+	public Member getMember(String account) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("name", account);
+		map.put("mobile", account);
+		return this.memberDao.selectByAccount(map);
+	}
+
+	@Override
+	public String getRolesByName(String name) {
+		return null;
+	}
+
+	@Override
+	public String getPermissionsByName(String name) {
+		return null;
 	}
 	
 }

@@ -13,5 +13,11 @@ import com.web.myapp.module.entity.Member;
 public interface MemberService {
 	
 	List<Member> getMemberList();
+	
+	Member getMember(String account);
+	
+	String getRolesByName(String name);
+	
+	String getPermissionsByName(String name);
 
 }

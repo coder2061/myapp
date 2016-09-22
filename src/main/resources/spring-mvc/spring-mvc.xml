@@ -96,7 +96,6 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 	
-     
     <!-- 设置,可用链接访问项目目录下的更新配置文件 -->
     <!-- 
     <mvc:resources mapping="/*.txt" location="/" cache-period="31556926" />

@@ -447,4 +447,10 @@
       EncryptedID = #{encryptedid,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByAccount" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where name = #{name,jdbcType=VARCHAR} or mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
 </mapper>

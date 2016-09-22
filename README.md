@@ -22,6 +22,7 @@ IDE：
 	Shiro
 	WebService
 	WebSocket
+	ActiveMQ
 
 2）模板引擎
 	JSP

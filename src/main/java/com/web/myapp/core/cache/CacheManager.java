@@ -3,16 +3,18 @@ package com.web.myapp.core.cache;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
-@SuppressWarnings("unchecked")
 public class CacheManager {
 	 
-	 public static HashMap cacheMap = new HashMap();    
+	public static HashMap<String, Object> cacheMap = new HashMap<String, Object>();    
 	    
     //单实例构造方法    
     private CacheManager() {    
         super();    
-    }    
+    }
+    
     //获取布尔值的缓存    
     public static boolean getSimpleFlag(String key){    
         try{    
@@ -20,14 +22,16 @@ public class CacheManager {
         }catch(NullPointerException e){    
             return false;    
         }    
-    }    
+    }
+    
     public static long getServerStartdt(String key){    
         try {    
             return (Long)cacheMap.get(key);    
         } catch (Exception ex) {    
             return 0;    
         }    
-    }    
+    }
+    
     //设置布尔值的缓存    
     public synchronized static boolean setSimpleFlag(String key,boolean flag){    
         if (flag && getSimpleFlag(key)) {//假如为真不允许被覆盖    
@@ -36,7 +40,8 @@ public class CacheManager {
             cacheMap.put(key, flag);    
             return true;    
         }    
-    }    
+    }
+    
     public synchronized static boolean setSimpleFlag(String key,long serverbegrundt){    
         if (cacheMap.get(key) == null) {    
             cacheMap.put(key,serverbegrundt);    
@@ -64,12 +69,12 @@ public class CacheManager {
    
     //清除某一类特定缓存,通过遍历HASHMAP下的所有对象，来判断它的KEY与传入的TYPE是否匹配    
     public synchronized static void clearAll(String type) {    
-        Iterator<CacheEntity> i = cacheMap.entrySet().iterator();    
+        Iterator<Entry<String, Object>> i = cacheMap.entrySet().iterator();    
         String key;    
         ArrayList<String> arr = new ArrayList<String>();    
         try {    
             while (i.hasNext()) {    
-                java.util.Map.Entry entry = (java.util.Map.Entry) i.next();    
+                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
                 key = (String) entry.getKey();    
                 if (key.startsWith(type)) { //如果匹配则删除掉    
                     arr.add(key);    
@@ -106,9 +111,8 @@ public class CacheManager {
             return null;    
     }    
    
-  //获取缓存信息    
+    //获取缓存信息    
     public static CacheEntity getCacheInfoNoExpired(String key) {    
-   
         if (hasCache(key)) {    
         	CacheEntity cache = getCache(key);    
             return cache;    
@@ -124,7 +128,8 @@ public class CacheManager {
         cache.setValue(obj);    
         cache.setExpired(expired); //缓存默认载入时，终止状态为FALSE    
         cacheMap.put(key, cache);    
-    }    
+    }
+
     //重写载入缓存信息方法    
     public static void putCacheInfo(String key,Object obj,long dt){    
      CacheEntity cache = new CacheEntity();    
@@ -157,11 +162,11 @@ public class CacheManager {
     //获取指定的类型的大小    
     public static int getCacheSize(String type) {    
         int k = 0;    
-        Iterator i = cacheMap.entrySet().iterator();    
+        Iterator<Entry<String, Object>> i = cacheMap.entrySet().iterator();    
         String key;    
         try {    
             while (i.hasNext()) {    
-                java.util.Map.Entry entry = (java.util.Map.Entry) i.next();    
+                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
                 key = (String) entry.getKey();    
                 if (key.indexOf(type) != -1) { //如果匹配则删除掉    
                     k++;    
@@ -170,43 +175,42 @@ public class CacheManager {
         } catch (Exception ex) {    
             ex.printStackTrace();    
         }    
-   
         return k;    
     }    
    
     //获取缓存对象中的所有键值名称    
     @SuppressWarnings("finally")
- public static ArrayList<String> getCacheAllkey() {    
-        ArrayList a = new ArrayList();    
+    public static List<String> getCacheAllkey() {    
+        List<String> a = new ArrayList<String>();    
         try {    
-            Iterator i = cacheMap.entrySet().iterator();    
+            Iterator<Entry<String, Object>> i = cacheMap.entrySet().iterator();    
             while (i.hasNext()) {    
-                java.util.Map.Entry entry = (java.util.Map.Entry) i.next();    
+                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
                 a.add((String) entry.getKey());    
             }    
         } catch (Exception ex) {
-         
+        	ex.printStackTrace();
         } finally {
-         return a;
+        	return a;
         }    
     }    
    
     //获取缓存对象中指定类型 的键值名称    
     @SuppressWarnings("finally")
-    public static ArrayList<String> getCacheListkey(String type) {    
-        ArrayList a = new ArrayList();    
+    public static List<String> getCacheListkey(String type) {    
+        List<String> a = new ArrayList<String>();    
         String key;    
         try {    
-            Iterator i = cacheMap.entrySet().iterator();    
+            Iterator<Entry<String, Object>> i = cacheMap.entrySet().iterator();    
             while (i.hasNext()) {    
-                java.util.Map.Entry entry = (java.util.Map.Entry) i.next();    
+                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
                 key = (String) entry.getKey();    
                 if (key.indexOf(type) != -1) {    
                     a.add(key);    
                 }    
             }    
         } catch (Exception ex) {
-         
+        	ex.printStackTrace();
         } finally {    
             return a;    
         }    
