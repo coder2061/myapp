@@ -1,11 +1,16 @@
 package com.web.myapp.weixin.model;
+
+import java.io.Serializable;
+
 /**   
- * Function: 请求出错响应信息
+ * Function: 微信接口返回结果接收基类
  * @author jiangyf   
  * @since 2016年9月21日 上午11:51:36 
  * @version V1.0   
  */
-public class ErrorInfo {
+public class WXBase implements Serializable {
+	private static final long serialVersionUID = 1954252565950618402L;
+	
 	// 错误编码
 	private String errcode;
 	// 错误提示

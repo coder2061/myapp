@@ -7,7 +7,6 @@ import sun.misc.BASE64Encoder;
 
 public class Base64 {
 	// 加密  
-    @SuppressWarnings("restriction")
 	public static String getBase64(String str) {  
         byte[] b = null;  
         String s = null;  
@@ -21,8 +20,8 @@ public class Base64 {
         }  
         return s;  
     }  
- // 加密  
-    public static String getBase64( byte[] b) {  
+	// 加密  
+    public static String getBase64(byte[] b) {  
         String s = null;  
         if (b != null) {  
             s = new BASE64Encoder().encode(b);  
@@ -44,7 +43,7 @@ public class Base64 {
         }  
         return result;  
     }  
- // 解密  
+    // 解密  
     public static byte[] getByteFromBase64(String s) {  
         byte[] b = null;  
         if (s != null) {  
@@ -56,7 +55,8 @@ public class Base64 {
             }  
         }  
         return b;  
-    }  
+    }
+    
     /**
      * 对数据进行Base64编码
      * 
@@ -148,7 +148,6 @@ public class Base64 {
      */
     public static byte[] getFromBASE64(String stData)
     {
-        // DTS2015020602859 2015.03.17 c00316442
         if (StringUtils.isEmpty(stData))
         {
             return new byte[]{};
@@ -235,8 +234,8 @@ public class Base64 {
         return l_btData;
     }
 
-    private static char returnToData(char cChar) // cChar 的合法性由 getFromBASE64
-                                                 // 中的代码保证了
+    // cChar 的合法性由 getFromBASE64中的代码保证了
+    private static char returnToData(char cChar)
     {
         if (('A' <= cChar) && (cChar <= 'Z'))
         {

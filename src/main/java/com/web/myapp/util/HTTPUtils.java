@@ -5,7 +5,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,10 +12,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -25,7 +22,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
@@ -42,74 +49,32 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.log4j.Logger;
 
-import com.web.myapp.constants.WeixinConstants;
-
-
 public class HTTPUtils {
 	private static Logger log = Logger.getLogger(HTTPUtils.class);
 	public static final String TYPE_XML = "text/xml";
 	public static final String TYPE_JSON = "application/json";
 
-	/**
-	 * 文件上传到微信服务器
-	 * 
-	 * @param fileType 文件类型
-	 * @param filePath 文件路径
-	 * @return JSONObject
-	 * @throws Exception
-	 */
-	public String send(String uploadType, String fileType, String filePath,
-			String accessToken) throws Exception {
-		File file = new File(filePath);
-		if (!file.exists() || !file.isFile()) {
-			throw new IOException("文件不存在");
-		}
-		/**
-		 * 第一部分
-		 */
-		String url = WeixinConstants.HTTP_POST_MEDIA_ADD.replace("ACCESS_TOKEN",
-				accessToken).replace("TYPE", fileType);
-		if ("0".equals(uploadType)) {
-			url = WeixinConstants.HTTP_POST_MEDIA_UPDATE.replace("ACCESS_TOKEN",
-					accessToken).replace("TYPE", fileType);
-		}
-		String result = httpPost(file, url);
-		return result;
-	}
-
-	public static String postHttp(String url, String[] paramNames,
-			String[] paramValues) {
+	public static String postHttp(String url, String[] paramNames, String[] paramValues) {
 		String responseMsg = "";
-
 		// 1.构造HttpClient的实例
 		HttpClient httpClient = new HttpClient();
-
 		httpClient.getParams().setContentCharset("GBK");
-
 		// 2.构造PostMethod的实例
 		PostMethod postMethod = new PostMethod(url);
-
 		// 3.把参数值放入到PostMethod对象中
 		// 方式1：
-		/*
-		 * NameValuePair[] data = { new NameValuePair("param1", param1), new
-		 * NameValuePair("param2", param2) }; postMethod.setRequestBody(data);
-		 */
-
+//		NameValuePair[] data = { new NameValuePair("param1", param1), new NameValuePair("param2", param2) }; 
+//		postMethod.setRequestBody(data);
 		// 方式2：
 		for (int index = 0; index < paramNames.length; index++) {
 			postMethod.addParameter(paramNames[index], paramValues[index]);
 		}
-
 		try {
 			// 4.执行postMethod,调用http接口
 			httpClient.executeMethod(postMethod);// 200
-
 			// 5.读取内容
 			responseMsg = postMethod.getResponseBodyAsString().trim();
-
 			// 6.处理返回的内容
-
 		} catch (HttpException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -121,9 +86,7 @@ public class HTTPUtils {
 		return responseMsg;
 	}
 
-	private String httpPost(File file, String url)
-			throws MalformedURLException, IOException, ProtocolException,
-			UnsupportedEncodingException, FileNotFoundException {
+	public static String httpPost(File file, String url) throws Exception {
 		String result = null;
 		URL urlObj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) urlObj.openConnection();
@@ -182,7 +145,7 @@ public class HTTPUtils {
 				result = buffer.toString();
 			}
 		} catch (IOException e) {
-			log.info("发送POST请求出现异常！" + e);
+			log.info("发送POST请求出现异常！" + e.getMessage());
 			e.printStackTrace();
 			throw new IOException("数据读取异常");
 		} finally {
@@ -237,30 +200,27 @@ public class HTTPUtils {
 			// 设置通用的请求属性
 			connection.setRequestProperty("accept", "*/*");
 			connection.setRequestProperty("connection", "Keep-Alive");
-			connection.setRequestProperty("user-agent",
+			connection.setRequestProperty("user-agent", 
 					"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
 			// 建立实际的连接
 			connection.connect();
-			/*
-			 * // 获取所有响应头字段 Map<String, List<String>> map =
-			 * connection.getHeaderFields(); // 遍历所有的响应头字段 for (String key :
-			 * map.keySet()) { log.info(key + "--->" + map.get(key));
-			 * }
-			 */
+			// 获取所有响应头字段
+//			Map<String, List<String>> map = connection.getHeaderFields(); 
+			// 遍历所有的响应头字段 
+//			for (String key : map.keySet()) { 
+//				log.info(key + "--->" + map.get(key));
+//			}
 			// 定义 BufferedReader输入流来读取URL的响应
-			in = new BufferedReader(new InputStreamReader(connection
-					.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line;
 			while ((line = in.readLine()) != null) {
 				result += line;
 			}
 			result = new String(result.getBytes(), "utf-8");
 		} catch (Exception e) {
-			log.info("发送GET请求出现异常！" + e);
+			log.info("发送GET请求出现异常！" + e.getMessage());
 			e.printStackTrace();
-		}
-		// 使用finally块来关闭输入流
-		finally {
+		} finally {// 使用finally块来关闭输入流
 			try {
 				if (in != null) {
 					in.close();
@@ -305,14 +265,12 @@ public class HTTPUtils {
 			// 获取所有响应头字段
 			Map<String, List<String>> map = connection.getHeaderFields();
 			// 遍历所有的响应头字段
-			for (String key : map.keySet()) {
-				log.info(key + "-->" + map.get(key));
-			}
-
+//			for (String key : map.keySet()) {
+//				log.info(key + "-->" + map.get(key));
+//			}
 			String contentType = map.get("Content-Type").get(0);
 			if (contentType.indexOf("text") >= 0) {
-				in = new BufferedReader(new InputStreamReader(connection
-						.getInputStream()));
+				in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				while ((line = in.readLine()) != null) {
 					result += line;
@@ -330,23 +288,19 @@ public class HTTPUtils {
 					result = m.group(1);
 				}
 			}
-
 			// 定义 BufferedReader输入流来读取URL的响应
 			// 1K的数据缓冲
 			dataInputStream = new DataInputStream(connection.getInputStream());
 			outputStream = new FileOutputStream(path + "/" + result);
 			byte[] buffer = new byte[1024];
 			int length;
-
 			while ((length = dataInputStream.read(buffer)) > 0) {
 				outputStream.write(buffer, 0, length);
 			}
 		} catch (Exception e) {
-			log.info("发送GET请求出现异常！" + e);
+			log.info("发送GET请求出现异常！" + e.getMessage());
 			e.printStackTrace();
-		}
-		// 使用finally块来关闭输入流
-		finally {
+		} finally {// 使用finally块来关闭输入流
 			try {
 				if (outputStream != null) {
 					outputStream.close();
@@ -404,11 +358,9 @@ public class HTTPUtils {
 				result += s;
 			}
 		} catch (Exception e) {
-			log.info("发送 POST 请求出现异常！" + e);
+			log.info("发送 POST 请求出现异常！" + e.getMessage());
 			e.printStackTrace();
-		}
-		// 使用finally块来关闭输出流、输入流
-		finally {
+		} finally {// 使用finally块来关闭输入流
 			try {
 				if (out != null) {
 					out.close();
@@ -432,7 +384,7 @@ public class HTTPUtils {
 	 *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
 	 * @return 所代表远程资源的响应结果
 	 */
-	public static String sendPostWithHeader(String url, String param, Map header) {// youngmix
+	public static String sendPostWithHeader(String url, String param, Map<String, Object> header) {
 		PrintWriter out = null;
 		BufferedReader in = null;
 		String result = "";
@@ -441,8 +393,7 @@ public class HTTPUtils {
 			// 打开和URL之间的连接
 			URLConnection conn = realUrl.openConnection();
 			// 设置通用的请求属性
-
-			Iterator ite = header.keySet().iterator();
+			Iterator<String> ite = header.keySet().iterator();
 			for (; ite.hasNext();) {
 				String key = (String) ite.next();
 				String value = (String) header.get(key);
@@ -462,12 +413,14 @@ public class HTTPUtils {
 			// flush输出流的缓冲
 			out.flush();
 			// 定义BufferedReader输入流来读取URL的响应
-			/*
-			 * in = new BufferedReader( new
-			 * InputStreamReader(conn.getInputStream())); String line; while
-			 * ((line = in.readLine()) != null) { result += line; } result = new
-			 * String(result.getBytes(),"utf-8");
-			 */
+			
+//			in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			String line; 
+//			while ((line = in.readLine()) != null) { 
+//				result += line; 
+//			} 
+//			result = new String(result.getBytes(),"utf-8");
+			
 			InputStream newin = conn.getInputStream();
 			int l = newin.available();
 			byte[] b = new byte[l];
@@ -476,11 +429,9 @@ public class HTTPUtils {
 				result += s;
 			}
 		} catch (Exception e) {
-			log.info("发送 POST 请求出现异常！" + e);
+			log.info("发送 POST 请求出现异常！" + e.getMessage());
 			e.printStackTrace();
-		}
-		// 使用finally块来关闭输出流、输入流
-		finally {
+		} finally {// 使用finally块来关闭输出流、输入流
 			try {
 				if (out != null) {
 					out.close();
@@ -504,7 +455,7 @@ public class HTTPUtils {
 	 *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
 	 * @return URL 所代表远程资源的响应结果
 	 */
-	public static String sendGetWithHeader(String url, Map header) {
+	public static String sendGetWithHeader(String url, Map<String, Object> header) {
 		String result = "";
 		BufferedReader in = null;
 		try {
@@ -513,7 +464,7 @@ public class HTTPUtils {
 			// 打开和URL之间的连接
 			URLConnection connection = realUrl.openConnection();
 			// 设置通用的请求属性
-			Iterator ite = header.keySet().iterator();
+			Iterator<String> ite = header.keySet().iterator();
 			for (; ite.hasNext();) {
 				String key = (String) ite.next();
 				String value = (String) header.get(key);
@@ -525,12 +476,12 @@ public class HTTPUtils {
 					"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
 			// 建立实际的连接
 			connection.connect();
-			/*
-			 * // 获取所有响应头字段 Map<String, List<String>> map =
-			 * connection.getHeaderFields(); // 遍历所有的响应头字段 for (String key :
-			 * map.keySet()) { log.info(key + "--->" + map.get(key));
-			 * }
-			 */
+			// 获取所有响应头字段
+//			Map<String, List<String>> map = connection.getHeaderFields(); 
+			// 遍历所有的响应头字段 
+//			for (String key : map.keySet()) { 
+//				log.info(key + "--->" + map.get(key));
+//			}
 			// 定义 BufferedReader输入流来读取URL的响应
 			in = new BufferedReader(new InputStreamReader(connection
 					.getInputStream()));
@@ -541,10 +492,9 @@ public class HTTPUtils {
 				String s = new String(b, "utf-8");
 				result += s;
 			}
-			// result = new
-			// String(result.getBytes(),"utf-8");log.info(result);
+//			result = new String(result.getBytes(),"utf-8");
 		} catch (Exception e) {
-			log.info("发送GET请求出现异常！" + e);
+			log.info("发送GET请求出现异常！" + e.getMessage());
 			e.printStackTrace();
 		}
 		// 使用finally块来关闭输入流
@@ -563,20 +513,15 @@ public class HTTPUtils {
 	public static String httpPostFile(String path, String filePath) {
 		File file = null;
 		try {
-
 			file = new File(filePath);
 		} catch (Exception e) {
-			log.error(e);
+			log.error(e.getMessage());
 			return "fail";
 		}
 		PostMethod filePost = new PostMethod(path);
 		HttpClient client = new HttpClient();
 		String info = "";
 		try {
-			// 通过以下方法可以模拟页面参数提交
-			// filePost.setParameter("description",
-			// "{'title':'测试视频','introduction':'为了测试上传'}");
-
 			Part[] parts = { new FilePart("media", file) };
 			filePost.setRequestEntity(new MultipartRequestEntity(parts,
 					filePost.getParams()));
@@ -729,5 +674,201 @@ public class HTTPUtils {
             e.printStackTrace();  
         }  
         return "error"; // 自定义错误信息  
-    }  
+    }
+    
+    private static class NullHostnameVerifier implements HostnameVerifier {
+	    public boolean verify(String hostname, SSLSession session) {
+	        return true;
+	    }
+	}
+    private static class TrustAnyTrustManager implements X509TrustManager {
+    	public void checkClientTrusted(X509Certificate[] arg0, String arg1)
+    			throws CertificateException {
+    	}
+    	public void checkServerTrusted(X509Certificate[] arg0, String arg1)
+    			throws CertificateException {
+    	}
+    	public X509Certificate[] getAcceptedIssuers() {
+    		return null;
+    	}
+    }
+    
+    public static String postClient(String requestUrl, String requestMethod, 
+    		String outputStr) {
+		StringBuffer buffer = new StringBuffer();
+		try {
+			// 创建SSLContext对象，并使用我们指定的信任管理器初始化
+			TrustManager[] tm = { new TrustAnyTrustManager() };
+			SSLContext sslContext = SSLContext.getInstance("TLSv1", "SunJSSE");
+			sslContext.init(null, tm, new SecureRandom());
+			// 从上述SSLContext对象中得到SSLSocketFactory对象
+			SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+			URL url = new URL(requestUrl);
+			HttpsURLConnection httpUrlConn = (HttpsURLConnection) url
+					.openConnection();
+			httpUrlConn.setSSLSocketFactory(ssf);
+			httpUrlConn.setHostnameVerifier(new NullHostnameVerifier());
+			httpUrlConn.setDoOutput(true);
+			httpUrlConn.setDoInput(true);
+			httpUrlConn.setUseCaches(false);
+			// 设置请求方式（GET/POST）
+			httpUrlConn.setRequestMethod(requestMethod);
+			if ("GET".equalsIgnoreCase(requestMethod))
+				httpUrlConn.connect();
+
+			// 当有数据需要提交时
+			if (null != outputStr && !outputStr.equals("")) {
+				OutputStream outputStream = httpUrlConn.getOutputStream();
+				// 注意编码格式，防止中文乱码
+				outputStream.write(outputStr.getBytes("UTF-8"));
+				outputStream.close();
+			}
+
+			// 将返回的输入流转换成字符串
+			InputStream inputStream = httpUrlConn.getInputStream();
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					inputStream, "utf-8");
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+			String str = bufferedReader.readLine();
+			while (str != null) {
+				buffer.append(str);
+			}
+			bufferedReader.close();
+			inputStreamReader.close();
+
+			// 释放资源
+			inputStream.close();
+			inputStream = null;
+			httpUrlConn.disconnect();
+		} catch (ConnectException ce) {
+			ce.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return buffer.toString();
+	}
+    
+    public static String postClient(String requestUrl, File file, 
+    		String outputStr, String type) {
+		StringBuffer buffer = new StringBuffer();
+		try {
+			// 创建SSLContext对象，并使用我们指定的信任管理器初始化
+			TrustManager[] tm = { new TrustAnyTrustManager() };
+			SSLContext sslContext = SSLContext.getInstance("TLSv1", "SunJSSE");
+			sslContext.init(null, tm, new java.security.SecureRandom());
+			// 从上述SSLContext对象中得到SSLSocketFactory对象
+			SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+			URL url = new URL(requestUrl);
+			HttpsURLConnection httpUrlConn = (HttpsURLConnection) url.openConnection();
+			httpUrlConn.setSSLSocketFactory(ssf);
+			httpUrlConn.setHostnameVerifier(new NullHostnameVerifier());
+			httpUrlConn.setDoOutput(true);
+			httpUrlConn.setDoInput(true);
+			httpUrlConn.setUseCaches(false);
+			// 设置请求方式（GET/POST）
+			httpUrlConn.setRequestMethod("POST");
+			StringBuilder sb = new StringBuilder();
+			String BOUNDARY = "----------" + System.currentTimeMillis();  
+			if("image".equals(type)){
+				// 设置边界  
+		        httpUrlConn.setRequestProperty("Content-Type", "multipart/form-data; boundary="+ BOUNDARY);  
+		        // 请求正文信息  
+		        // 第一部分：  
+		        sb.append("--");// 必须多两道线  
+		        sb.append(BOUNDARY);  
+		        sb.append("\r\n");  
+		        sb.append("Content-Disposition: form-data;name=\"media\";filename=\"" + file.getName() + "\"\r\n");  
+		        sb.append("Content-Type:application/octet-stream\r\n\r\n");  
+			}
+			OutputStream outputStream = httpUrlConn.getOutputStream();
+	        outputStream.write(sb.toString().getBytes("utf-8"));
+			// 当有数据需要提交时
+			if (null != outputStr && !outputStr.equals("")) {
+				// 注意编码格式，防止中文乱码
+				outputStream.write(outputStr.getBytes("UTF-8"));
+			}
+			byte[] foot = ("\r\n--" + BOUNDARY + "--\r\n").getBytes("utf-8");// 定义最后数据分隔线  
+			outputStream.write(foot);  
+			outputStream.flush();  
+			outputStream.close();
+			// 将返回的输入流转换成字符串
+			InputStream inputStream = httpUrlConn.getInputStream();
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					inputStream, "utf-8");
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+			String str = null;
+			while ((str = bufferedReader.readLine()) != null) {
+				buffer.append(str);
+			}
+			bufferedReader.close();
+			inputStreamReader.close();
+
+			// 释放资源
+			inputStream.close();
+			inputStream = null;
+			httpUrlConn.disconnect();
+		} catch (ConnectException ce) {
+			ce.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return buffer.toString();
+	}
+	
+	public static void filePostClient(String requestUrl, String requestMethod,
+			String outputStr, String savaFilePath) {
+		try {
+			// 创建SSLContext对象，并使用我们指定的信任管理器初始化
+			TrustManager[] tm = { new TrustAnyTrustManager() };
+			SSLContext sslContext = SSLContext.getInstance("TLSv1", "SunJSSE");
+			sslContext.init(null, tm, new SecureRandom());
+			// 从上述SSLContext对象中得到SSLSocketFactory对象
+			SSLSocketFactory ssf = sslContext.getSocketFactory();
+
+			URL url = new URL(requestUrl);
+			HttpsURLConnection httpUrlConn = (HttpsURLConnection) url
+					.openConnection();
+			httpUrlConn.setSSLSocketFactory(ssf);
+			httpUrlConn.setHostnameVerifier(new NullHostnameVerifier());
+			httpUrlConn.setDoOutput(true);
+			httpUrlConn.setDoInput(true);
+			httpUrlConn.setUseCaches(false);
+			// 设置请求方式（GET/POST）
+			httpUrlConn.setRequestMethod(requestMethod);
+
+			if ("GET".equalsIgnoreCase(requestMethod))
+				httpUrlConn.connect();
+
+			// 当有数据需要提交时
+			if (null != outputStr && !outputStr.equals("")) {
+				OutputStream outputStream = httpUrlConn.getOutputStream();
+				// 注意编码格式，防止中文乱码
+				outputStream.write(outputStr.getBytes("UTF-8"));
+				outputStream.close();
+			}
+
+			// 将返回的输入流转换成字符串
+			InputStream inputStream = httpUrlConn.getInputStream();
+			OutputStream  outputStream = new FileOutputStream(savaFilePath);
+
+			int c = inputStream.read();
+            while(c != -1) {
+            	outputStream.write(c);
+            }
+
+			// 释放资源
+            outputStream.flush();
+			inputStream.close();
+			outputStream.close();
+			inputStream = null;
+			httpUrlConn.disconnect();
+		} catch (ConnectException ce) {
+			ce.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

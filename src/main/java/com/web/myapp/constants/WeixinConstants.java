@@ -14,18 +14,22 @@ public class WeixinConstants {
 	public static final String APP_SRCRET = "0afbebf42d9ba9e8d46ba75ba337a091";
 	
 
-	/***************************** weixin api interface url *****************************/
-    
+	/***************************** access_token *****************************/
+	// 获取 access_token,GET方式
+	public static final String HTTPS_GET_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+	// access_token有效期，单位:秒
+	public static final int ACCESS_TOKEN_VALIDITY = 7200;
+	// 获取js_access_token,GET方式
+	public static final String HTTPS_GET_JS_ACCESS_TOKEN = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN"; 
+	// 获取api_ticket
+	public static final String HTTPS_GET_API_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=wx_card";
+	// 获取jsapi_ticket
+	public static final String HTTPS_GET_JSAPI_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
+
 	public static final String YANZHENG_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=weixin_appid&redirect_uri=weixin_url&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
 	
 	// 上传图文消息内图片
 	public static final String HTTPS_UPLOAD_IMG = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN";
-	
-	// 获取jsapi_ticket
-	public static final String HTTPS_GET_JSAPI_TICKET = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
-
-    // 得到 access_token,GET方式
-    public static final String HTTPS_GET_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
 
     // 创建菜单,POST方式
     public static final String HTTPS_POST_ACCESS_TOKEN_CREATE = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";

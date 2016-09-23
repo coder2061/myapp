@@ -74,7 +74,7 @@ public class CacheManager {
         ArrayList<String> arr = new ArrayList<String>();    
         try {    
             while (i.hasNext()) {    
-                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
+                Entry<String, Object> entry = (Entry<String, Object>) i.next();    
                 key = (String) entry.getKey();    
                 if (key.startsWith(type)) { //如果匹配则删除掉    
                     arr.add(key);    
@@ -132,7 +132,7 @@ public class CacheManager {
 
     //重写载入缓存信息方法    
     public static void putCacheInfo(String key,Object obj,long dt){    
-     CacheEntity cache = new CacheEntity();    
+    	CacheEntity cache = new CacheEntity();    
         cache.setKey(key);    
         cache.setTimeOut(dt+System.currentTimeMillis());    
         cache.setValue(obj);    
@@ -166,7 +166,7 @@ public class CacheManager {
         String key;    
         try {    
             while (i.hasNext()) {    
-                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
+                Entry<String, Object> entry = (Entry<String, Object>) i.next();    
                 key = (String) entry.getKey();    
                 if (key.indexOf(type) != -1) { //如果匹配则删除掉    
                     k++;    
@@ -185,7 +185,7 @@ public class CacheManager {
         try {    
             Iterator<Entry<String, Object>> i = cacheMap.entrySet().iterator();    
             while (i.hasNext()) {    
-                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
+                Entry<String, Object> entry = (Entry<String, Object>) i.next();    
                 a.add((String) entry.getKey());    
             }    
         } catch (Exception ex) {
@@ -203,7 +203,7 @@ public class CacheManager {
         try {    
             Iterator<Entry<String, Object>> i = cacheMap.entrySet().iterator();    
             while (i.hasNext()) {    
-                java.util.Map.Entry<String, Object> entry = (java.util.Map.Entry<String, Object>) i.next();    
+                Entry<String, Object> entry = (Entry<String, Object>) i.next();    
                 key = (String) entry.getKey();    
                 if (key.indexOf(type) != -1) {    
                     a.add(key);    
