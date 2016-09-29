@@ -6,7 +6,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**   
- * Function: Junit测试基类（需要配置事务，可实现数据回滚，即测试执行完成，数据库数据与测试前一致）
+ * Junit测试基类（需要配置事务，可实现数据回滚，即测试执行完成，数据库数据与测试前一致）
  * @author jiangyf   
  * @since 2016年9月5日 上午11:18:22 
  * @version V1.0   

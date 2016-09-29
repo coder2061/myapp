@@ -6,7 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**   
- * Function: 一个测试方法主要包括三个部分：setup，执行操作，验证结果
+ * 一个测试方法主要包括三个部分：setup，执行操作，验证结果
  * @author jiangyf   
  * @since 2016年9月5日 上午11:57:26 
  * @version V1.0   

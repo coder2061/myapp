@@ -14,7 +14,7 @@ import com.web.myapp.base.BaseJunitTest;
 import com.web.myapp.module.entity.Member;
 
 /**   
- * Function: 业务层单元测试
+ * 业务层单元测试
  * @author jiangyf   
  * @since 2016年9月7日 上午11:18:23 
  * @version V1.0   

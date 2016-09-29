@@ -17,7 +17,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 /**   
- * Function: freemarker静态页面生成工具
+ * freemarker静态页面生成工具
  * @author jiangyf   
  * @since 2016年9月9日 下午4:19:54 
  * @version V1.0   

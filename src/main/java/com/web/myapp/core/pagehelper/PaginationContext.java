@@ -1,6 +1,6 @@
 package com.web.myapp.core.pagehelper;
 /**   
- * Function: 基于 ThreadLocal来传递分页参数的工具类 
+ * 基于 ThreadLocal来传递分页参数的工具类 
  * @author jiangyf   
  * @since 2016年9月6日 下午3:54:53 
  * @version V1.0   

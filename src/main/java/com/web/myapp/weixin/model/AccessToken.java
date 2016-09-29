@@ -1,7 +1,7 @@
 package com.web.myapp.weixin.model;
 
 /**   
- * Function: 微信公众号的全局唯一接口调用凭据 
+ * 微信公众号的全局唯一接口调用凭据 
  * @author jiangyf   
  * @since 2016年9月23日 上午10:58:26 
  * @version V1.0   

@@ -10,7 +10,7 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 /**   
- * Function: Websocet服务端实现（注册实现类）
+ * Websocet服务端实现（注册实现类）
  * @author jiangyf   
  * @since 2016年9月8日 下午2:41:57 
  * @version V1.0   

@@ -13,7 +13,7 @@ import com.web.myapp.module.entity.MessageExample;
 import com.web.myapp.module.service.MessageService;
 
 /**   
- * Function: message接口实现 
+ * message接口实现 
  * @author jiangyf   
  * @since 2016年9月7日 下午7:42:02 
  * @version V1.0   

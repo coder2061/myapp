@@ -3,7 +3,7 @@ package com.web.myapp.demo.cxf;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 
 /**   
- * Function: 启动WebService
+ * 启动WebService
  * @author jiangyf   
  * @since 2016年9月22日 上午10:11:04 
  * @version V1.0   
@@ -11,7 +11,7 @@ import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
 public class WebServiceServer {
 	
 	/**  
-	* Function: 手动启动WebService接口
+	* 手动启动WebService接口
 	* @param address 接口地址
 	* @param service 接口类
 	* @param serviceImpl 实现类对象

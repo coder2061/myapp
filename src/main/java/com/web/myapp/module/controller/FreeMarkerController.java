@@ -19,7 +19,7 @@ import com.web.myapp.util.FreeMarkerUtil;
 
 
 /**   
- * Function: FreeMark模板引擎
+ * FreeMark模板引擎
  * @author jiangyf   
  * @since 2016年9月9日 下午4:55:54 
  * @version V1.0   

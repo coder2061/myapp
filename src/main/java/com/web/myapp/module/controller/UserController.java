@@ -17,10 +17,10 @@ import com.web.myapp.module.lucene.LuceneIndex;
 import com.web.myapp.module.model.User;
 import com.web.myapp.module.service.MemberService;
 import com.web.myapp.util.GsonUtil;
-import com.web.myapp.util.StringUtils;
+import com.web.myapp.util.IOStreamUtil;
 
 /** 
- * Function:  
+ *  
  * @author jiangyf   
  * @since 2016年8月24日 下午3:32:07 
  * @version V1.0   
@@ -34,7 +34,7 @@ public class UserController {
 	@RequestMapping(value = "/getUserInfo", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
 	public void getUserInfo(HttpServletRequest request) {
 		try {
-			String params = StringUtils.readToString(request.getInputStream());
+			String params = IOStreamUtil.inputStreamToString(request.getInputStream());
 			User user = (User) GsonUtil.json2Bean(params, User.class);
 			System.out.println(GsonUtil.bean2Json(user));
 		} catch (IOException e) {

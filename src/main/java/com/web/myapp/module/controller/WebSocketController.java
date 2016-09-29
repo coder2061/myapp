@@ -17,7 +17,7 @@ import com.web.myapp.module.service.MessageService;
 import com.web.myapp.util.JsonUtil;
 
 /**   
- * Function: WebSocket实时通讯服务
+ * WebSocket实时通讯服务
  * @author jiangyf   
  * @since 2016年9月9日 下午4:59:35 
  * @version V1.0   

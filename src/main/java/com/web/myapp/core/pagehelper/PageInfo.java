@@ -6,7 +6,7 @@ import java.util.List;
 import com.github.pagehelper.Page;
 
 /**   
- * Function: com.github.pagehelper 定义的  PageInfo
+ * com.github.pagehelper 定义的  PageInfo
  * @author jiangyf   
  * @since 2016年9月6日 下午3:44:20 
  * @version V1.0   

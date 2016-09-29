@@ -1,6 +1,6 @@
 package com.web.myapp.demo.inheritance;
 /**   
- * Function: java类关于继承的执行顺序（父类） 
+ * java类关于继承的执行顺序（父类） 
  * @author jiangyf   
  * @since 2016年9月6日 上午9:49:11 
  * @version V1.0   

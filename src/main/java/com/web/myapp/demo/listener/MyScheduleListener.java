@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.web.myapp.demo.schedule.MyJob;
 
 /**   
- * Function: Application Lifecycle Listener implementation class AListener
+ * Application Lifecycle Listener implementation class AListener
  * 一般来说，Web应用启动时，应注册已经确定的定时任务；一些动态的、未确定触发时间的定时任务，后续可通过静态的Scheduler注册。
  * 这里使用监听器在应用启动时注册，记得在web.xml注册这个监听器；在关闭Web应用时，也要相应的注销定时任务。
  * 其他配置文件、Java类与上例子相同，这里只是注册定时任务的地方换成此监听器了。

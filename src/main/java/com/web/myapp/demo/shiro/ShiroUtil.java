@@ -9,7 +9,7 @@ import org.apache.shiro.util.Factory;
 import org.apache.shiro.crypto.hash.Md5Hash;
 
 /**   
- * Function: Shiro工具
+ * Shiro工具
  * @author jiangyf   
  * @since 2016年9月22日 下午12:00:00 
  * @version V1.0   
@@ -36,7 +36,7 @@ public class ShiroUtil {
 	}
 	
 	/**  
-	* Function: 基于Shiro的MD5加密 
+	* 基于Shiro的MD5加密 
 	* @param str 加密的字符串
 	* @param salt 盐值
 	* @return String 

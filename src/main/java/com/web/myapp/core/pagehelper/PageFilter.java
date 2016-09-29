@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.web.myapp.util.StringUtils;
 
 /**   
- * Function: 从请求中获取分页参数pageNum和pageSize  
+ * 从请求中获取分页参数pageNum和pageSize  
  * @author jiangyf   
  * @since 2016年9月6日 下午3:57:17 
  * @version V1.0   

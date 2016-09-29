@@ -15,7 +15,7 @@ public class MQProducer {
     private static final int NUM = 10 ;
     
     /**  
-     * Function: 发送消息
+     * 发送消息
      * @param msg
      * @param queueName
      */
@@ -51,7 +51,7 @@ public class MQProducer {
     }
 
     /**  
-    * Function: 发送消息
+    * 发送消息
     * @param msg
     * @param session
     * @param messageProducer

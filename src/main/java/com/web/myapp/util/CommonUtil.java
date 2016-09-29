@@ -1,6 +1,5 @@
 package com.web.myapp.util;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,8 +21,6 @@ import com.web.myapp.core.exception.BizException;
 
 /**
  *常用工具类
- * @author lipengfei
- * date：2015-08-01
  */
 public class CommonUtil {
 	private static Logger logger = Logger.getLogger(CommonUtil.class);
@@ -55,26 +52,6 @@ public class CommonUtil {
 		} else {
 			return true;
 		}
-	}
-	
-	/**
-	 * 返回当前时间　格式：yyyy-MM-dd hh:mm:ss
-	 * 
-	 * @return String
-	 */
-	public static String fromDateH() {
-		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-		return format1.format(getNowTime());
-	}
-	
-	/**
-	 * 返回当前时间　格式：yyyy-MM-dd
-	 * 
-	 * @return String
-	 */
-	public static String fromDateY() {
-		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		return format1.format(getNowTime());
 	}
 	
 	/**
@@ -238,13 +215,6 @@ public class CommonUtil {
 				new TypeToken<Map<String, Integer>>() {}.getType());
 		return map;
 	}
-	/**
-	 * 获取当前时间
-	 * @return Date
-	 */
-	public static Date getNowTime() {
-		return new Date();
-	}
 	
     /** 
      * 获取日期（月/日）
@@ -256,7 +226,6 @@ public class CommonUtil {
         Calendar calendar = Calendar.getInstance();  
         calendar.setTime(date);  
         calendar.add(Calendar.DAY_OF_MONTH, gap);  
-        
         return (calendar.get(Calendar.MONTH)+1)+"月"+calendar.get(Calendar.DAY_OF_MONTH)+"号";  
     }
 }

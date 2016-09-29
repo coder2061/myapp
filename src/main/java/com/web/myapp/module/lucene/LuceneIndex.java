@@ -43,7 +43,7 @@ import com.web.myapp.core.config.CommonConfig;
 import com.web.myapp.module.model.User;
 
 /**   
- * Function: 索引工具类 
+ * 索引工具类 
  * 	Lucene的使用主要体现在两个步骤：
  * 		1 创建索引，通过IndexWriter对不同的文件进行索引的创建，并将其保存在索引相关文件存储的位置中。
  * 		2 通过索引查寻关键字相关文档。

@@ -20,7 +20,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 /**   
- * Function: WebSocket实现实时通讯 
+ * WebSocket实现实时通讯 
  * @author jiangyf   
  * @since 2016年9月7日 下午5:24:11 
  * @version V1.0   

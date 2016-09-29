@@ -13,7 +13,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 /**   
- * Function: 取得当前请求中的用户名，并且保存到当前的WebSocketHandler中，以便确定WebSocketHandler所对应的用户，
+ * 取得当前请求中的用户名，并且保存到当前的WebSocketHandler中，以便确定WebSocketHandler所对应的用户，
  * 			  具体可参考HttpSessionHandshakeInterceptor
  * @author jiangyf   
  * @since 2016年9月8日 下午2:51:14 

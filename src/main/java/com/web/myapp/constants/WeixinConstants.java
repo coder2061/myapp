@@ -1,6 +1,6 @@
 package com.web.myapp.constants;
 /**   
- * Function: weixin api interface url
+ * weixin api interface url
  * @author jiangyf   
  * @since 2016年9月19日 上午11:57:49 
  * @version V1.0   

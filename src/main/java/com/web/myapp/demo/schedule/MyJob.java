@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**   
- * Function: quartz作业调度接口实现 
+ * quartz作业调度接口实现 
  * @author jiangyf   
  * @since 2016年8月30日 上午11:45:01 
  * @version V1.0   

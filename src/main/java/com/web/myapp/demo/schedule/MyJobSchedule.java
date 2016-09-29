@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**   
- * Function: quartz作业调度接口实现  
+ * quartz作业调度接口实现  
  * @author jiangyf   
  * @since 2016年8月30日 上午11:51:56 
  * @version V1.0   
@@ -24,7 +24,7 @@ public class MyJobSchedule {
 	private static final Logger logger = LoggerFactory.getLogger(MyJobSchedule.class);
 	
 	/**  
-	* Function: 执行quartz作业调度
+	* 执行quartz作业调度
 	* @return void 
 	* @author jiangyf 
 	* @since 2016年8月30日 下午12:02:36 
@@ -56,7 +56,7 @@ public class MyJobSchedule {
 	}
 	
 	/**  
-	* Function: 执行quartz作业调度
+	* 执行quartz作业调度
 	* @return void 
 	* @author jiangyf 
 	* @since 2016年8月30日 下午12:02:36 

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**   
- * Function: Json工具类 
+ * Json工具类 
  * @author jiangyf   
  * @since 2016年9月12日 下午12:00:02 
  * @version V1.0   
@@ -18,7 +18,7 @@ import java.io.PrintWriter;
 public class JsonUtil {
 
     /**  
-    * Function: 封装执行结果为json对象
+    * 封装执行结果为json对象
     * @param code
     * @param msg
     * @param data
@@ -37,7 +37,7 @@ public class JsonUtil {
 
 
     /**  
-    * Function: 封装请求响应数据为json对象输出
+    * 封装请求响应数据为json对象输出
     * @param response
     * @param jo
     * @return void 

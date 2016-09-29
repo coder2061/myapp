@@ -10,7 +10,7 @@ import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
 
 /** 
- * Function: 二维码工具
+ * 二维码工具
  * @author jiangyf   
  * @since 2016年8月12日 下午12:05:21 
  * @version V1.0   
@@ -24,7 +24,7 @@ public class QRCodeUtil {
 	public static final int HEIGHT = 200;
 
     /** 
-    * Function: 生成二维码
+    * 生成二维码
     * @param url 二维码中的链接信息
     * @throws IOException
     * @return ByteArrayOutputStream
@@ -39,7 +39,7 @@ public class QRCodeUtil {
     }
     
     /** 
-    * Function: 生成二维码
+    * 生成二维码
     * @param url
     * @param fileName
     * @param width

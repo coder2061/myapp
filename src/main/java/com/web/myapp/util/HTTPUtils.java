@@ -63,7 +63,7 @@ public class HTTPUtils {
 		PostMethod postMethod = new PostMethod(url);
 		// 3.把参数值放入到PostMethod对象中
 		// 方式1：
-//		NameValuePair[] data = { new NameValuePair("param1", param1), new NameValuePair("param2", param2) }; 
+//		NameValuePair[] data = {new NameValuePair("param1", param1), new NameValuePair("param2", param2)}; 
 //		postMethod.setRequestBody(data);
 		// 方式2：
 		for (int index = 0; index < paramNames.length; index++) {

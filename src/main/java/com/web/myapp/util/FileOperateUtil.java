@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,38 +36,32 @@ public class FileOperateUtil {
 	public static final String CREATETIME = "createTime";
 
 	/**
-	 * @Title: rename
-	 * Function: 将上传的文件进行重命名
-	 * @param name
-	 *            文件名
+	 * 将上传的文件进行重命名
+	 * 
+	 * @param name 文件名
 	 * @return String 重命名后的文件名
 	 */
 	private static String rename(String name) {
 		Long now = Long.parseLong(new SimpleDateFormat("yyyyMMddHHmmss")
-				.format(CommonUtil.getNowTime()));
+					.format(new Date()));
 		Long random = (long) (Math.random() * now);
-		String fileName = now + "" + random;
-
+		String fileName = now + "-" + random;
 		if (name.indexOf(".") != -1) {
 			fileName += name.substring(name.lastIndexOf("."));
 		}
-
 		return fileName;
 	}
 
 	/**
-	 * @Title: upload
-	 * Function: 上传文件
-	 * @param request
-	 *            http请求
-	 * @param uploadDir
-	 *            上传文件的保存路径
+	 * 上传文件
+	 * 
+	 * @param request http请求
+	 * @param uploadDir 上传文件的保存路径
 	 * @return List<Map<String,Object>>
 	 * @throws Exception
 	 */
 	public static List<Map<String, Object>> upload(HttpServletRequest request,
 			String uploadDir) {
-
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		// 将HttpServletRequest请求转为MultipartHttpServletRequest
 		MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
@@ -125,7 +120,7 @@ public class FileOperateUtil {
 			map.put(FileOperateUtil.SAVEDNAME, savedName);
 			// octet-stream 代表任意的二进制数据传输
 			map.put(FileOperateUtil.CONTENTTYPE, "application/octet-stream");
-			map.put(FileOperateUtil.CREATETIME, CommonUtil.getNowTime());
+			map.put(FileOperateUtil.CREATETIME, new Date());
 
 			result.add(map);
 		}
@@ -133,17 +128,12 @@ public class FileOperateUtil {
 	}
 
 	/**
-	 * @Title: download
-	 * Function: 下载文件
-	 * @param request
-	 *            http请求
-	 * @param response
-	 *            http响应
-	 * @param filePath
-	 *            下载文件路径
-	 * @param realName
-	 *            原文件名
-	 * @return void
+	 * 下载文件
+	 * 
+	 * @param request http请求
+	 * @param response http响应
+	 * @param filePath 下载文件路径
+	 * @param realName 原文件名
 	 * @throws Exception
 	 */
 	public static void download(HttpServletRequest request,
@@ -173,19 +163,18 @@ public class FileOperateUtil {
 	}
 
 	/**
-	 * @Title: deleteFile
-	 * Function: 删除单个文件
-	 * @param @param fileName 文件路径
-	 * @param @return
+	 * 删除单个文件
+	 * 
+	 * @param fileName 文件路径
 	 * @return boolean
-	 * @throws
 	 */
 	public static boolean deleteFile(String fileName) {
 		File file = new File(fileName);
+		// "删除单个文件"+name+"成功！"
 		if (file.isFile() && file.exists()) {
-			file.delete();// "删除单个文件"+name+"成功！"
+			file.delete();
 			return true;
-		}// "删除单个文件"+name+"失败！"
+		}
 		return false;
 	}
 }

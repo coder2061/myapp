@@ -24,7 +24,7 @@ import com.web.myapp.module.entity.Member;
 import com.web.myapp.module.service.MemberService;
 
 /**   
- * Function: 自定义Shiro
+ * 自定义Shiro
  * @author jiangyf   
  * @since 2016年9月22日 下午12:49:55 
  * @version V1.0   
@@ -36,7 +36,7 @@ public class ShiroRealm extends AuthorizingRealm {
 	private MemberService memberService;
 
 	/**  
-	* Function: 为当前登录的用户授予角色和权限
+	* 为当前登录的用户授予角色和权限
 	* @param principal
 	*/
 	@Override
@@ -66,7 +66,7 @@ public class ShiroRealm extends AuthorizingRealm {
 	}
 
 	/**  
-	* Function: 验证当前登录的用户
+	* 验证当前登录的用户
 	* @param token
 	* @throws AuthenticationException
 	*/

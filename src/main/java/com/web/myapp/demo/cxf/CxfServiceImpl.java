@@ -5,7 +5,7 @@ import javax.jws.WebService;
 import org.springframework.stereotype.Component;
 
 /**   
- * Function: WebService接口实现
+ * WebService接口实现
  * @author jiangyf   
  * @since 2016年9月22日 上午10:02:33 
  * @version V1.0   

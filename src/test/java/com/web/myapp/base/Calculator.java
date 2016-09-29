@@ -1,6 +1,6 @@
 package com.web.myapp.base;
 /**   
- * Function: Junit测试使用类
+ * Junit测试使用类
  * @author jiangyf   
  * @since 2016年9月5日 下午2:54:23 
  * @version V1.0   

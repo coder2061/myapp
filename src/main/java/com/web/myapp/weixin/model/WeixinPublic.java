@@ -1,6 +1,6 @@
 package com.web.myapp.weixin.model;
 /**   
- * Function: 微信公众号
+ * 微信公众号
  * @author jiangyf   
  * @since 2016年9月23日 上午9:29:08 
  * @version V1.0   

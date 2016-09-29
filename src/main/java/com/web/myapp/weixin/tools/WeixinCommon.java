@@ -13,7 +13,7 @@ import com.web.myapp.util.HTTPUtils;
 import com.web.myapp.weixin.model.AccessToken;
 
 /**   
- * Function: 微信通用接口
+ * 微信通用接口
  * @author jiangyf   
  * @since 2016年9月21日 上午11:37:22 
  * @version V1.0   

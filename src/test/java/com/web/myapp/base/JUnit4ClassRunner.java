@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Log4jConfigurer;
 
 /**   
- * Function: Junit测试基类 
+ * Junit测试基类 
  * @author jiangyf   
  * @since 2016年9月5日 上午11:50:03 
  * @version V1.0   

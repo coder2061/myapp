@@ -11,7 +11,7 @@ import com.web.myapp.core.config.CommonConfig;
 import com.web.myapp.module.model.Area;
 
 /**   
- * Function: 测试通用
+ * 测试通用
  * @author jiangyf   
  * @since 2016年9月9日 下午5:02:33 
  * @version V1.0   

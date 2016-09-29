@@ -1,6 +1,6 @@
 package com.web.myapp.base;
 /**   
- * Function: JMockit单元测试 
+ * JMockit单元测试 
  * @author jiangyf   
  * @since 2016年9月5日 下午5:27:13 
  * @version V1.0   

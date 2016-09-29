@@ -6,7 +6,7 @@ import java.util.List;
 import com.github.pagehelper.Page;
 
 /**   
- * Function: 根据com.github.pagehelper定义的PageInfo自定义一个轻量级的PageBean
+ * 根据com.github.pagehelper定义的PageInfo自定义一个轻量级的PageBean
  * @author jiangyf   
  * @since 2016年9月6日 下午3:47:11 
  * @version V1.0   

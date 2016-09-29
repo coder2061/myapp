@@ -6,7 +6,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**   
- * Function: Junit测试基类
+ * Junit测试基类
  * @author jiangyf   
  * @since 2016年9月5日 上午11:18:22 
  * @version V1.0   

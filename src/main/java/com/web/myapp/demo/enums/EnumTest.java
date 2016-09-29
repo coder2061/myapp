@@ -1,6 +1,6 @@
 package com.web.myapp.demo.enums;
 /**   
- * Function: 枚举 
+ * 枚举 
  * @author jiangyf   
  * @since 2016年9月21日 下午5:45:07 
  * @version V1.0   

@@ -15,7 +15,7 @@ import org.springframework.web.socket.WebSocketSession;
 import com.web.myapp.module.service.MessageService;
 
 /**   
- * Function:  
+ *  
  * @author jiangyf   
  * @since 2016年9月8日 下午2:46:55 
  * @version V1.0   

@@ -1,6 +1,6 @@
 package com.web.myapp.module.model;
 /** 
- * Function:  
+ *  
  * @author jiangyf   
  * @since 2016年8月24日 下午12:13:26 
  * @version V1.0   

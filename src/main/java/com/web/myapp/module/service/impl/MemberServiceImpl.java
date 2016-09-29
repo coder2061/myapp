@@ -14,7 +14,7 @@ import com.web.myapp.module.entity.MemberExample;
 import com.web.myapp.module.service.MemberService;
 
 /**   
- * Function: member接口实现 
+ * member接口实现 
  * @author jiangyf   
  * @since 2016年9月7日 上午10:54:40 
  * @version V1.0   
@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 
 	/**  
-	* Function: 查询用户列表
+	* 查询用户列表
 	* @author jiangyf 
 	* @since 2016年9月7日 上午11:06:25 
 	*/

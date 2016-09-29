@@ -210,7 +210,7 @@ public class DateUtils {
     }  
   
 	/** 
-	* Function: 获取指定日期相差几个月的第一天
+	* 获取指定日期相差几个月的第一天
 	* @param date
 	* @param months 月数差，可为负
 	* @return Date
@@ -226,7 +226,7 @@ public class DateUtils {
     }
 	
 	/** 
-	* Function: 获取指定日期相差几个月的最后一天
+	* 获取指定日期相差几个月的最后一天
 	* @param date
 	* @return Date
 	* @author jiangyf 
@@ -242,7 +242,7 @@ public class DateUtils {
 	}
 	
 	/** 
-	* Function: 获取相差指定天数的时间
+	* 获取相差指定天数的时间
 	* @param date
 	* @param days 天数差，可为负
 	* @return Date
@@ -257,7 +257,7 @@ public class DateUtils {
 	}
 	
 	/** 
-	* Function: 获取指定日期时分秒的时间
+	* 获取指定日期时分秒的时间
 	* @param date
 	* @param hhmmss 时分秒  "00:00:00","23:59:59"
 	* @return Date
