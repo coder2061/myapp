@@ -27,5 +27,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ueditor-1.1.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/QRCode.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/XmlSchema-1.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/pinyin4j-2.5.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

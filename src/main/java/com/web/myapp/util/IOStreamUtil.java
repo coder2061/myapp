@@ -1,6 +1,7 @@
 package com.web.myapp.util;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -55,6 +56,35 @@ public class IOStreamUtil {
 	    	sb.append(buffer+"\n"); 
 		}
         return sb.toString().trim();
+	}
+	
+	/**
+	 * 关闭一个或多个流对象
+	 * 
+	 * @param closeables 可关闭的流对象列表
+	 * @throws IOException
+	 */
+	public static void close(Closeable... closeables) throws IOException {
+		if (closeables != null) {
+			for (Closeable closeable : closeables) {
+				if (closeable != null) {
+					closeable.close();
+				}
+			}
+		}
+	}
+
+	/**
+	 * 关闭一个或多个流对象
+	 * 
+	 * @param closeables 可关闭的流对象列表
+	 */
+	public static void closeQuietly(Closeable... closeables) {
+		try {
+			close(closeables);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

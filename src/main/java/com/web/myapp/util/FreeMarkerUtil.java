@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateHashModel;
 
 /**   
  * freemarker静态页面生成工具
@@ -85,4 +87,21 @@ public class FreeMarkerUtil {
 			return false;
 		}
 	}
+	
+	/**  
+	* 将引用的类传入freemarker对象
+	* @param packageName
+	* @return TemplateHashModel 
+	*/
+	public static TemplateHashModel useStaticFunction(String packageName) {
+	    try {
+	      BeansWrapper wrapper = BeansWrapper.getDefaultInstance();
+	      TemplateHashModel staticModels = wrapper.getStaticModels();
+	      TemplateHashModel fileStatics = (TemplateHashModel) staticModels.get(packageName); //packageName为静态类全路径。例如cn.aibo.test.TestValue
+	      return fileStatics;
+	    } catch (Exception e) {
+	       e.printStackTrace(); 
+	    }
+		return null;
+	 }
 }
