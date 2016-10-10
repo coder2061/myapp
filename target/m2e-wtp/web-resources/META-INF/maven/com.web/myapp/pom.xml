@@ -19,6 +19,7 @@
   <!-- 属性配置 -->
   <properties>
   	<webapp.name>myapp</webapp.name>
+    <jdk.version>1.8</jdk.version>
     <!-- spring -->  
     <spring.version>4.3.2.RELEASE</spring.version>  
     <!-- mybatis -->  
@@ -29,7 +30,6 @@
     <quartz.version>2.2.2</quartz.version>
     <!-- websocket -->
     <websocket.version>1.1</websocket.version>
-    <jdk.version>1.8</jdk.version>
     <!-- lucene -->
     <lucene.version>6.2.0</lucene.version>
     <!-- shiro -->
@@ -85,6 +85,13 @@
     <jvmargs>-XX:MaxPermSize=256m -Xms512m -Xmx1024m</jvmargs>
   </properties>
   <dependencies>
+  	<dependency>
+	    <groupId>jdk.tools</groupId>
+	    <artifactId>jdk.tools</artifactId>
+	    <version>${jdk.version}</version>
+	    <scope>system</scope>
+	    <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+	</dependency>
   
   	<!-- 集成框架 -->
     
@@ -426,11 +433,25 @@
 	</dependency>
 
   	<!-- 服务器组件 -->
+	<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
 	<dependency>
 	    <groupId>redis.clients</groupId>
 	    <artifactId>jedis</artifactId>
-	    <version>2.8.0</version>
+	    <version>2.9.0</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-redis</artifactId>
+	    <version>1.7.4.RELEASE</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-pool2</artifactId>
+	    <version>2.4.2</version>
+	</dependency>
+
   
   
   	<!-- 数据源组件 -->
@@ -596,7 +617,11 @@
 	    <artifactId>poi</artifactId>
 	    <version>3.14</version>
 	</dependency>
-	
+	<dependency> 
+		<groupId>org.apache.poi</groupId>
+		<artifactId>poi-ooxml</artifactId>
+		<version>3.5-FINAL</version>
+	</dependency>
 	
 	<!-- 日志组件 -->
 	<dependency>
@@ -724,12 +749,12 @@
 	        <id>jdk-1.8</id>
 	        <activation>
 	           <activeByDefault>true</activeByDefault>
-	           <jdk>1.8</jdk>
+	           <jdk>${jdk.version}</jdk>
 	        </activation>
 	        <properties>
-	            <maven.compiler.source>1.8</maven.compiler.source>
-	            <maven.compiler.target>1.8</maven.compiler.target>
-				<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+	            <maven.compiler.source>${jdk.version}</maven.compiler.source>
+	            <maven.compiler.target>${jdk.version}</maven.compiler.target>
+				<maven.compiler.compilerVersion>${jdk.version}</maven.compiler.compilerVersion>
 	        </properties>
 	    </profile>
 	</profiles>

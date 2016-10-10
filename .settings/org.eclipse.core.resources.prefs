@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/log4j.properties=UTF-8
+encoding//src/main/resources/properties/redis.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/index.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/jsp/checkCard.jsp=UTF-8
 encoding/<project>=UTF-8

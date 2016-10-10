@@ -162,8 +162,7 @@ public class ExcelReader {
     /**
      * 获取单元格数据内容为日期类型的数据
      * 
-     * @param cell
-     *            Excel单元格
+     * @param cell Excel单元格
      * @return String 单元格数据内容
      */
     @SuppressWarnings({ "deprecation", "unused" })
@@ -238,7 +237,6 @@ public class ExcelReader {
     }
     
     /**
-     * 
      * 写入excle
      * @throws IOException 
      */

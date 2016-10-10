@@ -173,17 +173,20 @@
     <tx:annotation-driven transaction-manager="transactionManager3" />
      -->
     <!-- 事务控制 -->
+    <!-- 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
+	 -->
 	<!-- 只对业务逻辑层实施事务 -->
+	<!-- 
 	<aop:config expose-proxy="true" proxy-target-class="true">
 		<aop:pointcut id="txPointcut" expression="execution(* com.web.myapp.module.service..*+.*(..))" />
 		<aop:advisor id="txAdvisor" advice-ref="txAdvice" pointcut-ref="txPointcut" />
 	</aop:config>
-	
+	 -->
 	<!-- 把事务控制在Service层 -->
     <!-- 
 	<tx:advice id="userTxAdvice" transaction-manager="transactionManager">
