@@ -100,7 +100,12 @@
         <groupId>org.springframework</groupId>  
         <artifactId>spring-aop</artifactId>  
         <version>${spring.version}</version>  
-    </dependency>  
+    </dependency>
+    <dependency>  
+        <groupId>org.springframework</groupId>  
+        <artifactId>spring-context</artifactId>  
+        <version>${spring.version}</version>  
+    </dependency>   
     <dependency>  
         <groupId>org.springframework</groupId>  
         <artifactId>spring-context-support</artifactId>  
@@ -478,8 +483,15 @@
 	    <artifactId>druid</artifactId>
 	    <version>1.0.24</version>
 	</dependency>
+	
+	<!--  Google 的一个开源项目，包含许多 Google 核心的 Java 常用库。 -->
+	<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+	<dependency>
+	    <groupId>com.google.guava</groupId>
+	    <artifactId>guava</artifactId>
+	    <version>19.0</version>
+	</dependency>
 
-		
 	<!-- XML文档解析 -->
 	<dependency>
         <groupId>dom4j</groupId>
